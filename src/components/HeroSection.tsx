@@ -15,7 +15,7 @@ interface HeroSectionProps {
 const HeroSection = ({
   title = "Creatividad Tecnológica Disruptiva",
   subtitle = "En VanguardHive",
-  description = "Fusionamos innovación y tecnología para crear soluciones IA que transforman industrias.",
+  description = 'Soluciones IA que provocan un "Blow my Mind + Take the Money + Si dejo pasar esto es que soy realmente un viejo vinagre"',
   ctaText = "Descubre Nuestros Proyectos",
   onCtaClick = () => console.log("CTA clicked"),
 }: HeroSectionProps) => {
