@@ -5,6 +5,9 @@ import ProjectsSection from "./ProjectsSection";
 import ContactSection from "./ContactSection";
 import Footer from "./Footer"; // Import the new Footer component
 
+// Ensure AboutSection is NOT imported
+// import AboutSection from "./AboutSection";
+
 const fadeIn = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.6 } },
@@ -106,6 +109,8 @@ const Home = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Ensure the section calling AboutSection is removed */}
 
       <motion.div
         initial="hidden"
