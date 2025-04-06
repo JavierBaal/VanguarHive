@@ -99,7 +99,7 @@ const HeroSection = ({
               Proyectos
             </a>
             <Link to="/about" className="hover:text-white transition-colors">
-              El Visionario
+              Detrás de VanguardHive
             </Link>
             <a href="#contact" className="hover:text-white transition-colors">
               Contacto

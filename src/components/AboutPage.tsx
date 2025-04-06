@@ -24,8 +24,8 @@ const AboutPage = () => { // Renamed component
     <div className="min-h-screen bg-background flex flex-col"> {/* Root element */}
       {/* 1. Add Hero Section */}
       <HeroSection
-        title="El Visionario Disruptivo"
-        subtitle="Detrás de VanguardHive"
+        title="Detrás de VanguardHive" // Updated Title
+        subtitle="El Fundador" // Updated Subtitle
         description="Conoce la mente que impulsa la innovación en la intersección de la IA y la creatividad."
         ctaText="Volver al Inicio"
         // Use navigate for SPA navigation instead of full page reload
