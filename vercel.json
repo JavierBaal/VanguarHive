@@ -1,10 +1,4 @@
 {
-  "functions": {
-    "api/**/*.ts": {
-      "memory": 128,
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
     {
       "source": "/((?!api$|api/|_next/|static/|public/|favicon.ico|vite.svg|assets/|.*\\.\\w+).*)",
