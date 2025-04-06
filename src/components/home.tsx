@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import HeroSection from "./HeroSection";
 import ProjectsSection from "./ProjectsSection";
 import ContactSection from "./ContactSection";
+import Footer from "./Footer"; // Import the new Footer component
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -116,40 +117,8 @@ const Home = () => {
         <ContactSection />
       </motion.div>
 
-      <footer className="bg-card py-12">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-            <div className="mb-6 md:mb-0">
-              <div className="text-3xl font-bold mb-2">V</div>
-              <div className="text-xl font-semibold">VanguardHive</div>
-            </div>
-            <div className="flex flex-col md:flex-row gap-6">
-              <a
-                href="#"
-                className="text-primary hover:text-primary/80 transition-colors"
-              >
-                TehorIA
-              </a>
-              <a
-                href="#"
-                className="text-primary hover:text-primary/80 transition-colors"
-              >
-                LinkedIn
-              </a>
-            </div>
-          </div>
-          <div className="border-t border-border pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="text-sm text-muted-foreground mb-4 md:mb-0">
-                © 2025 VanguardHive. Innovación con Alma.
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Creatividad • IA • Disrupción
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Use the Footer component */}
+      <Footer />
     </div>
   );
 };
