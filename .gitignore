@@ -32,3 +32,6 @@ core
 
 .github/
 
+# Cline/Memory Bank specific files
+.clinerules
+memory-bank/
