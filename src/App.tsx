@@ -1,12 +1,13 @@
 import { Suspense } from "react";
 import { useRoutes, Routes, Route } from "react-router-dom";
-import Home from "./components/home";
-import KairosJuristaLandingPage from "./components/KairosJuristaLandingPage";
-import TehorIALandingPage from "./components/TehorIALandingPage";
-import KairosCreativeLandingPage from "./components/KairosCreativeLandingPage"; // Importar nueva landing page
-import AboutPage from "./components/AboutPage"; // Importar AboutPage (nuevo nombre)
+// Corrected paths using alias
+import Home from "@/lib/components/home";
+import KairosJuristaLandingPage from "@/lib/components/KairosJuristaLandingPage";
+import TehorIALandingPage from "@/lib/components/TehorIALandingPage";
+import KairosCreativeLandingPage from "@/lib/components/KairosCreativeLandingPage";
+import AboutPage from "@/components/AboutPage"; // This one seems to be in src/components, keep relative? Or move it too? Let's assume it stays for now. Check structure again if error persists.
 import routes from "tempo-routes";
-import { Toaster } from "@/components/ui/toaster"; // Importar Toaster
+import { Toaster } from "@/lib/components/ui/toaster"; // Corrected path for Toaster
 
 function App() {
   return (
