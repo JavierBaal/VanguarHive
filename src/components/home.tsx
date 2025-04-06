@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import HeroSection from "./HeroSection";
 import ProjectsSection from "./ProjectsSection";
+import AboutSection from "./AboutSection"; // Importar AboutSection
 import ContactSection from "./ContactSection";
 
 const fadeIn = {
@@ -104,6 +105,17 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </motion.div>
+
+      {/* Añadir AboutSection aquí */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeIn}
+        className="w-full"
+      >
+        <AboutSection />
       </motion.div>
 
       <motion.div
