@@ -1,40 +1,41 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // Verified path
-import { Button } from "@/components/ui/button"; // Verified path
-import { Card, CardContent } from "@/components/ui/card"; // Verified path
+// Corrected paths using alias
+import { Avatar, AvatarFallback, AvatarImage } from "@/lib/components/ui/avatar";
+import { Button } from "@/lib/components/ui/button";
+import { Card, CardContent } from "@/lib/components/ui/card";
 // Removed Twitter import, kept Linkedin
 import { Linkedin } from "lucide-react";
-import HeroSection from "./HeroSection"; // Verified path
-import Footer from "./Footer"; // Verified path
-import { useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
+// Corrected paths using alias
+import HeroSection from "@/lib/components/HeroSection";
+import Footer from "@/lib/components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-const AboutPage = () => { // Renamed component
-  const navigate = useNavigate(); // Hook for navigation
+const AboutPage = () => {
+  const navigate = useNavigate();
 
   // Updated URLs
-  const linkedInUrl = "https://linkedin.com/in/javier-baal"; // From ContactSection
+  const linkedInUrl = "https://linkedin.com/in/javier-baal";
   const xUrl = "https://x.com/javierbaal00"; // Updated X URL
 
   return (
-    <div className="min-h-screen bg-background flex flex-col"> {/* Root element */}
+    <div className="min-h-screen bg-background flex flex-col">
       {/* 1. Add Hero Section */}
       <HeroSection
-        title="Detrás de VanguardHive" // Updated Title
-        subtitle="El Fundador" // Updated Subtitle
+        title="Detrás de VanguardHive"
+        subtitle="El Fundador"
         description="Conoce la mente que impulsa la innovación en la intersección de la IA y la creatividad."
         ctaText="Volver al Inicio"
-        // Use navigate for SPA navigation instead of full page reload
         onCtaClick={() => navigate('/')}
       />
 
       {/* 2. Main content section */}
-      <section className="py-20 px-4 md:px-8 lg:px-16 bg-slate-900 text-white flex-grow"> {/* Use flex-grow */}
+      <section className="py-20 px-4 md:px-8 lg:px-16 bg-slate-900 text-white flex-grow">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial="hidden"
@@ -42,14 +43,12 @@ const AboutPage = () => { // Renamed component
             viewport={{ once: true, amount: 0.2 }}
             variants={fadeIn}
           >
-            {/* Content moved from the original AboutSection */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
               {/* Profile Card */}
               <div className="lg:col-span-1 flex flex-col items-center">
                 <Card className="w-full max-w-sm bg-slate-800/50 border-cyan-500/20">
                   <CardContent className="p-6 text-center">
                     <Avatar className="w-32 h-32 mx-auto mb-4 border-2 border-cyan-400">
-                      {/* Profile picture */}
                       <AvatarImage src="/images/Javier-Baal_Fran-Barbero-2025.jpg" alt="Javier Baal" />
                       <AvatarFallback className="text-4xl font-bold bg-gradient-to-r from-cyan-600 to-purple-600">
                         JB
@@ -139,4 +138,4 @@ const AboutPage = () => { // Renamed component
   );
 };
 
-export default AboutPage; // Export with the new name
+export default AboutPage;
