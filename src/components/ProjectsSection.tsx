@@ -53,6 +53,16 @@ const ProjectsSection = () => {
       ctaLink: "/kairos-jurista",
       statusColor: "default",
     },
+    {
+      title: "Kairos Creative",
+      subtitle: "Publicidad IA",
+      description:
+        "Plataforma de IA multiagente para la creación y simulación de campañas publicitarias ultrarrápidas.",
+      status: "MVP Inminente",
+      ctaText: "Más información",
+      ctaLink: "/kairos-creative",
+      statusColor: "default", // Or maybe "secondary" if still in dev? Let's use default like the others.
+    },
   ];
 
   const containerVariants = {

@@ -39,9 +39,10 @@ type ContactFormValues = z.infer<typeof formSchema>;
 
 interface ContactSectionProps {
   className?: string;
+  defaultProduct?: string; // Add prop for default product/context
 }
 
-const ContactSection: React.FC<ContactSectionProps> = ({ className = "" }) => {
+const ContactSection: React.FC<ContactSectionProps> = ({ className = "", defaultProduct = "" }) => {
   const { toast } = useToast(); // Initialize toast
   const [isSubmitting, setIsSubmitting] = useState(false); // State for loading
 
@@ -51,7 +52,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ className = "" }) => {
     defaultValues: {
       name: "",
       email: "",
-      project: "",
+      project: defaultProduct, // Use the prop for default value
       message: "",
     },
   });
@@ -65,10 +66,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({ className = "" }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...values,
-          formType: 'contact', // Add form type identifier
-        }),
+        // The 'project' field from values now contains the identifier if set
+        body: JSON.stringify(values),
       });
 
       const result = await response.json();
@@ -149,18 +148,23 @@ const ContactSection: React.FC<ContactSectionProps> = ({ className = "" }) => {
                       name="project"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Proyecto de interés <span className="text-muted-foreground text-xs">(Opcional)</span></FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                          <FormLabel>Asunto / Proyecto de interés <span className="text-muted-foreground text-xs">(Opcional)</span></FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value || defaultProduct} disabled={isSubmitting}>
                             <FormControl>
                               <SelectTrigger className="mt-1">
-                                <SelectValue placeholder="Selecciona una opción" />
+                                <SelectValue placeholder="Selecciona un asunto o proyecto" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="tehoria">TehorIA</SelectItem>
-                              <SelectItem value="kairos">KAIROS</SelectItem>
-                              <SelectItem value="kairos-jurista">KAIROS Jurista</SelectItem>
-                              <SelectItem value="otro">Otro</SelectItem>
+                              {/* Add Kairos Creative if defaultProduct is set to it */}
+                              {defaultProduct === "Kairos Creative Interest" && (
+                                <SelectItem value="Kairos Creative Interest">Kairos Creative</SelectItem>
+                              )}
+                              <SelectItem value="TehorIA Beta">TehorIA (Beta)</SelectItem>
+                              <SelectItem value="Kairos Jurista Beta">KAIROS Jurista (Beta)</SelectItem>
+                              <SelectItem value="General Inquiry">Consulta General</SelectItem>
+                              <SelectItem value="Partnership">Propuesta de Colaboración</SelectItem>
+                              <SelectItem value="Other">Otro</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
