@@ -1,12 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // Verified path
-import { Button } from "@/components/ui/button"; // Verified path
-import { Card, CardContent } from "@/components/ui/card"; // Verified path
-// Removed Twitter import, kept Linkedin
-import { Linkedin } from "lucide-react";
-import HeroSection from "./HeroSection"; // Verified path
-import Footer from "./Footer"; // Verified path
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Linkedin, Twitter } from "lucide-react"; // Assuming X icon is Twitter for lucide
+import HeroSection from "./HeroSection"; // Import HeroSection
+import Footer from "./Footer"; // Import Footer
 import { useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
 
 const fadeIn = {
@@ -17,9 +16,9 @@ const fadeIn = {
 const AboutPage = () => { // Renamed component
   const navigate = useNavigate(); // Hook for navigation
 
-  // Updated URLs
+  // Placeholder URLs - Replace with actual profile links
   const linkedInUrl = "https://linkedin.com/in/javier-baal"; // From ContactSection
-  const xUrl = "https://x.com/javierbaal00"; // Updated X URL
+  const twitterUrl = "https://twitter.com"; // Placeholder - Update if needed
 
   return (
     <div className="min-h-screen bg-background flex flex-col"> {/* Root element */}
@@ -58,19 +57,16 @@ const AboutPage = () => { // Renamed component
                     <h3 className="text-2xl font-bold mb-1">Javier Baal</h3>
                     <p className="text-cyan-400 mb-4">Fundador de VanguardHive</p>
                     <div className="flex justify-center space-x-4">
-                      {/* X Button */}
                       <Button
                         variant="outline"
                         size="icon"
                         className="border-slate-600 hover:bg-slate-700"
                         asChild
                       >
-                        <a href={xUrl} target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
-                          {/* Using a simple 'X' text for now */}
-                          <span className="font-bold text-slate-300">X</span>
+                        <a href={twitterUrl} target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">
+                          <Twitter className="h-5 w-5 text-slate-300" />
                         </a>
                       </Button>
-                      {/* LinkedIn Button */}
                       <Button
                         variant="outline"
                         size="icon"
@@ -88,8 +84,7 @@ const AboutPage = () => { // Renamed component
 
               {/* Bio Text */}
               <div className="lg:col-span-2">
-                {/* Changed text-slate-300 to text-slate-200 for better contrast */}
-                <div className="space-y-5 text-slate-200 text-lg leading-relaxed">
+                <div className="space-y-5 text-slate-300 text-lg leading-relaxed">
                   <p>
                     Javier Baal no es un testigo de la revolución tecnológica; es
                     un protagonista que la ha vivido y moldeado desde dentro. Su
