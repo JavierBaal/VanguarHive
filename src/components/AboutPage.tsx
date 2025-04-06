@@ -48,8 +48,8 @@ const AboutPage = () => { // Renamed component
                 <Card className="w-full max-w-sm bg-slate-800/50 border-cyan-500/20">
                   <CardContent className="p-6 text-center">
                     <Avatar className="w-32 h-32 mx-auto mb-4 border-2 border-cyan-400">
-                      {/* Placeholder for profile picture */}
-                      <AvatarImage src="/placeholder-profile.jpg" alt="Javier Baal" />
+                      {/* Profile picture */}
+                      <AvatarImage src="/images/Javier-Baal_Fran Barbero-2025.jpg" alt="Javier Baal" />
                       <AvatarFallback className="text-4xl font-bold bg-gradient-to-r from-cyan-600 to-purple-600">
                         JB
                       </AvatarFallback>
