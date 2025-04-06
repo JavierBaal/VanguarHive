@@ -1,11 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+// NEW TOP-LEVEL LOG
+console.log('--- submit-form.ts module loaded ---');
+
 // EXTREMELY Simplified Handler for Debugging
 export default function handler(
   req: VercelRequest,
   res: VercelResponse,
 ) {
-  console.log('--- EXTREMELY SIMPLIFIED submit-form function started ---');
+  console.log('--- EXTREMELY SIMPLIFIED submit-form function handler started ---'); // Modified log message slightly
   console.log('Request Method:', req.method);
 
   if (req.method === 'POST') {
