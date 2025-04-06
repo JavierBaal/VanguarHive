@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"; // Importar Link
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -97,9 +98,9 @@ const HeroSection = ({
             <a href="#projects" className="hover:text-white transition-colors">
               Proyectos
             </a>
-            <a href="#about" className="hover:text-white transition-colors">
-              Nosotros
-            </a>
+            <Link to="/about" className="hover:text-white transition-colors">
+              El Visionario
+            </Link>
             <a href="#contact" className="hover:text-white transition-colors">
               Contacto
             </a>
