@@ -4,6 +4,7 @@ import Home from "./components/home";
 import KairosJuristaLandingPage from "./components/KairosJuristaLandingPage";
 import TehorIALandingPage from "./components/TehorIALandingPage";
 import routes from "tempo-routes";
+import { Toaster } from "@/components/ui/toaster"; // Importar Toaster
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/tehoria" element={<TehorIALandingPage />} />
         </Routes>
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
+        <Toaster /> {/* Añadir Toaster aquí */}
       </>
     </Suspense>
   );

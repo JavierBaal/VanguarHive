@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // Keep useState for isSubmitting
+import { useForm } from "react-hook-form"; // Import useForm
+import { zodResolver } from "@hookform/resolvers/zod"; // Import zodResolver
+import * as z from "zod"; // Import zod
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+// Label might still be used outside the form, keep it for now
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -11,38 +15,85 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Mail, Linkedin } from "lucide-react";
+import {
+  Form, // Import Form components from Shadcn
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast"; // Import useToast
+import { Mail, Linkedin, Loader2 } from "lucide-react"; // Import Loader2
+
+// 1. Define Zod schema for validation
+const formSchema = z.object({
+  name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
+  email: z.string().email({ message: "Por favor, introduce un correo electrónico válido." }),
+  project: z.string().optional(), // Project selection is optional or allow empty
+  message: z.string().min(10, { message: "El mensaje debe tener al menos 10 caracteres." }).max(1000, { message: "El mensaje no puede exceder los 1000 caracteres." }),
+});
+
+type ContactFormValues = z.infer<typeof formSchema>;
+
 
 interface ContactSectionProps {
   className?: string;
 }
 
 const ContactSection: React.FC<ContactSectionProps> = ({ className = "" }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    project: "",
-    message: "",
+  const { toast } = useToast(); // Initialize toast
+  const [isSubmitting, setIsSubmitting] = useState(false); // State for loading
+
+  // 2. Initialize react-hook-form
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      project: "",
+      message: "",
+    },
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  // 3. Define onSubmit handler
+  const onSubmit = async (values: ContactFormValues) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...values,
+          formType: 'contact', // Add form type identifier
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "¡Mensaje Enviado!",
+          description: "Gracias por contactarnos. Te responderemos pronto.",
+        });
+        form.reset(); // Reset form on success
+      } else {
+        throw new Error(result.error || 'Error al enviar el mensaje.');
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "No se pudo enviar el mensaje. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, project: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Form submission logic would go here
-    console.log("Form submitted:", formData);
-    // Reset form after submission
-    setFormData({ name: "", email: "", project: "", message: "" });
-  };
 
   return (
     <section
@@ -61,70 +112,93 @@ const ContactSection: React.FC<ContactSectionProps> = ({ className = "" }) => {
           <div className="lg:col-span-2">
             <Card className="border-2 border-primary/10 shadow-lg">
               <CardContent className="p-6">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="name">Nombre completo</Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="mt-1"
-                        required
-                      />
-                    </div>
+                {/* 4. Wrap form with Shadcn Form component */}
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    {/* 5. Use FormField for each input */}
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nombre completo</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Tu nombre" className="mt-1" {...field} disabled={isSubmitting} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                    <div>
-                      <Label htmlFor="email">Correo electrónico</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="mt-1"
-                        required
-                      />
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Correo electrónico</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="tu@correo.com" className="mt-1" {...field} disabled={isSubmitting} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                    <div>
-                      <Label htmlFor="project">Proyecto de interés</Label>
-                      <Select
-                        value={formData.project}
-                        onValueChange={handleSelectChange}
-                      >
-                        <SelectTrigger className="mt-1">
-                          <SelectValue placeholder="Selecciona una opción" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="tehoria">TehorIA</SelectItem>
-                          <SelectItem value="kairos">KAIROS</SelectItem>
-                          <SelectItem value="kairos-jurista">
-                            KAIROS Jurista
-                          </SelectItem>
-                          <SelectItem value="otro">Otro</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name="project"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Proyecto de interés <span className="text-muted-foreground text-xs">(Opcional)</span></FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                            <FormControl>
+                              <SelectTrigger className="mt-1">
+                                <SelectValue placeholder="Selecciona una opción" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="tehoria">TehorIA</SelectItem>
+                              <SelectItem value="kairos">KAIROS</SelectItem>
+                              <SelectItem value="kairos-jurista">KAIROS Jurista</SelectItem>
+                              <SelectItem value="otro">Otro</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                    <div>
-                      <Label htmlFor="message">Mensaje</Label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        className="mt-1 min-h-32"
-                        required
-                      />
-                    </div>
-                  </div>
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mensaje</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Escribe tu mensaje aquí..."
+                              className="mt-1 min-h-32"
+                              {...field}
+                              disabled={isSubmitting}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <Button type="submit" className="w-full" size="lg">
-                    Enviar mensaje
-                  </Button>
-                </form>
+                    <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+                       {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Enviando...
+                        </>
+                      ) : (
+                        "Enviar mensaje"
+                      )}
+                    </Button>
+                  </form>
+                </Form>
               </CardContent>
             </Card>
           </div>

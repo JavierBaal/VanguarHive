@@ -1,13 +1,92 @@
-import React from "react";
+import React, { useState } from "react"; // Import useState
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form"; // Import useForm
+import { zodResolver } from "@hookform/resolvers/zod"; // Import zodResolver
+import * as z from "zod"; // Import zod
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/components/ui/label"; // Keep Label for non-form elements if needed
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowRight, Scale, Clock, Shield, CheckCircle } from "lucide-react";
+import {
+  Form, // Import Form components from Shadcn
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast"; // Import useToast
+import { ArrowRight, Scale, Clock, Shield, CheckCircle, Loader2 } from "lucide-react"; // Import Loader2
 import { Card, CardContent } from "@/components/ui/card";
 
+
+// 1. Define Zod schema for validation (Kairos specific)
+const formSchema = z.object({
+  name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
+  company: z.string().min(2, { message: "El nombre de la empresa/bufete es requerido." }),
+  email: z.string().email({ message: "Por favor, introduce un correo electrónico válido." }),
+  phone: z.string().optional(), // Phone is optional
+  message: z.string().min(10, { message: "El mensaje debe tener al menos 10 caracteres." }).max(500, { message: "El mensaje no puede exceder los 500 caracteres." }),
+});
+
+type KairosFormValues = z.infer<typeof formSchema>;
+
+
 const KairosJuristaLandingPage = () => {
+  const { toast } = useToast(); // Initialize toast
+  const [isSubmitting, setIsSubmitting] = useState(false); // State for loading
+
+  // 2. Initialize react-hook-form
+  const form = useForm<KairosFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      company: "",
+      email: "",
+      phone: "",
+      message: "",
+    },
+  });
+
+  // 3. Define onSubmit handler
+  const onSubmit = async (values: KairosFormValues) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...values,
+          formType: 'kairos-beta', // Add form type identifier
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "¡Solicitud Enviada!",
+          description: "Gracias por tu interés en KAIROS Jurista. Nuestro equipo se pondrá en contacto pronto.",
+        });
+        form.reset(); // Reset form on success
+      } else {
+        throw new Error(result.error || 'Error al enviar el formulario.');
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "No se pudo enviar la solicitud. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -274,60 +353,107 @@ const KairosJuristaLandingPage = () => {
 
           <Card className="border-2 border-primary/10 shadow-lg">
             <CardContent className="p-8">
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Nombre completo</Label>
-                    <Input id="name" placeholder="Introduzca su nombre" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="company">Empresa/Bufete</Label>
-                    <Input
-                      id="company"
-                      placeholder="Nombre de su organización"
+              {/* 4. Wrap form with Shadcn Form component */}
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* 5. Use FormField for each input */}
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nombre completo</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Introduzca su nombre" {...field} disabled={isSubmitting} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="company"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Empresa/Bufete</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Nombre de su organización" {...field} disabled={isSubmitting} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Correo electrónico</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="correo@ejemplo.com"
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Correo electrónico</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="correo@ejemplo.com" {...field} disabled={isSubmitting} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Teléfono <span className="text-muted-foreground text-xs">(Opcional)</span></FormLabel>
+                          <FormControl>
+                            <Input placeholder="+34 XXX XXX XXX" {...field} disabled={isSubmitting} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Teléfono</Label>
-                    <Input id="phone" placeholder="+34 XXX XXX XXX" />
-                  </div>
-                </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="message">
-                    ¿Cómo podría KAIROS Jurista ayudar a su práctica legal?
-                  </Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Cuéntenos sobre sus necesidades específicas..."
-                    className="min-h-32"
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>¿Cómo podría KAIROS Jurista ayudar a su práctica legal?</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Cuéntenos sobre sus necesidades específicas..."
+                            className="min-h-32"
+                            {...field}
+                            disabled={isSubmitting}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
 
-                <Button type="submit" className="w-full" size="lg">
-                  Solicitar Acceso
-                </Button>
-
-                <p className="text-sm text-center text-muted-foreground mt-4">
-                  Al enviar este formulario, acepta ser contactado por nuestro
-                  equipo para recibir más información sobre KAIROS Jurista.
-                </p>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+                  <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Enviando Solicitud...
+                      </>
+                    ) : (
+                      "Solicitar Acceso"
+                    )}
+                  </Button>
+                </form>
+              </Form>
+              <p className="text-sm text-center text-muted-foreground mt-4">
+                Al enviar este formulario, acepta ser contactado por nuestro
+                equipo para recibir más información sobre KAIROS Jurista.
+              </p>
+            </CardContent> {/* Correctly closed CardContent */}
+          </Card> {/* Correctly closed Card */}
+        </div> {/* Correctly closed div */}
+      </section> {/* Correctly closed section */}
 
       {/* Footer */}
       <footer className="bg-card py-12">
