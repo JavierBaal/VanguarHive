@@ -61,6 +61,12 @@ export default async function handler(
   const resend = new Resend(resendApiKey);
   console.log('Resend client initialized.');
 
+  // --- TEMPORARY DEBUGGING: Bypass Resend ---
+  console.log('--- DEBUG: Bypassing Resend logic ---');
+  return res.status(200).json({ message: 'DEBUG: Form data received, Resend bypassed.' });
+  // --- END TEMPORARY DEBUGGING ---
+
+  /* // Original Resend Logic - Temporarily Commented Out
   // 5. Construir el Email
   console.log('Building email content for formType:', formData.formType);
   let subject = '';
@@ -119,4 +125,5 @@ export default async function handler(
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     return res.status(500).json({ error: 'Internal server error', details: errorMessage });
   }
+  */ // End of commented out Resend logic
 }
