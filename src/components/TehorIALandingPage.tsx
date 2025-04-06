@@ -72,7 +72,23 @@ const TehorIALandingPage = () => {
         }),
       });
 
-      const result = await response.json();
+      // --- DEBUG: Log raw response ---
+      console.log('Raw fetch response status:', response.status);
+      console.log('Raw fetch response statusText:', response.statusText);
+      const responseText = await response.text(); // Read response as text first
+      console.log('Raw fetch response text:', responseText);
+      // --- END DEBUG ---
+
+      // Try parsing the text as JSON
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+         console.error("Failed to parse response as JSON:", parseError);
+         // Throw an error to be caught by the outer catch block
+         throw new Error(`Server returned non-JSON response (Status: ${response.status})`);
+      }
+      // const result = await response.json(); // Original line that might be failing
 
       if (response.ok) {
         toast({
