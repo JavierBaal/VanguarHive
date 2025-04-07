@@ -998,8 +998,10 @@ const TehorIALandingPage = () => {
                   />
                 </div>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[800px] p-0 bg-black border-slate-800 overflow-hidden">
-                <div className="aspect-video">
+              {/* Adjusted DialogContent size using viewport units */}
+              <DialogContent className="w-[80vw] max-w-[80vw] h-[80vh] max-h-[80vh] p-0 bg-black border-slate-800 overflow-hidden flex items-center justify-center">
+                {/* Removed aspect-video to allow iframe to fill height */}
+                <div className="w-full h-full">
                   <iframe
                     width="100%"
                     height="100%"
