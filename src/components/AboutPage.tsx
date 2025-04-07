@@ -54,7 +54,8 @@ const AboutPage = () => {
                         JB
                       </AvatarFallback>
                     </Avatar>
-                    <h3 className="text-2xl font-bold mb-1">Javier Baal</h3>
+                    {/* Added text-white for better contrast */}
+                    <h3 className="text-2xl font-bold mb-1 text-white">Javier Baal</h3>
                     <p className="text-cyan-400 mb-4">Fundador de VanguardHive</p>
                     <div className="flex justify-center space-x-4">
                       {/* X Button */}
