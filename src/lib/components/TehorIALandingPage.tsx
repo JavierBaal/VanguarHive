@@ -1,4 +1,5 @@
 import React, { useState } from "react"; // Import useState
+import { Helmet } from "react-helmet-async"; // Import Helmet
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form"; // Import useForm
 import { zodResolver } from "@hookform/resolvers/zod"; // Import zodResolver
@@ -127,6 +128,10 @@ const TehorIALandingPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-900">
+      <Helmet>
+        <title>TehorIA - DAW Conversacional con IA | VanguardHive</title>
+        <meta name="description" content="Descubre TehorIA, el DAW conversacional que revoluciona la producción musical. Tu socio creativo con IA. Únete a la beta." />
+      </Helmet>
       {/* ATTENTION: Hero Section with striking visuals */}
       <section className="relative w-full min-h-[800px] bg-gradient-to-br from-slate-900 via-purple-900/30 to-slate-900 flex items-center justify-center overflow-hidden">
         {/* Background grid pattern */}

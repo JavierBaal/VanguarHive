@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async"; // Import Helmet
 import { motion } from "framer-motion";
 // Corrected relative paths
 import HeroSection from "./HeroSection";
@@ -17,6 +18,10 @@ const fadeIn = {
 const Home = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>VanguardHive - Innovación con IA y Creatividad</title>
+        <meta name="description" content="VanguardHive fusiona IA y creatividad para crear soluciones disruptivas. Explora nuestros proyectos como TehorIA, Kairos Jurista y Kairos Creative." />
+      </Helmet>
       <motion.div
         initial="hidden"
         animate="visible"
