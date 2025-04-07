@@ -1,10 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import HeroSection from "./HeroSection"; // Reutilizamos HeroSection
-import Footer from "./Footer"; // Reutilizamos Footer
-import ContactSection from "./ContactSection"; // Reutilizamos ContactSection
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import HeroSection from "./HeroSection"; // Corrected relative path
+import Footer from "./Footer"; // Corrected relative path
+import ContactSection from "./ContactSection"; // Corrected relative path
+import { Card, CardContent, CardHeader, CardTitle } from "@/lib/components/ui/card"; // Corrected path
+import { Separator } from "@/lib/components/ui/separator"; // Corrected path
 
 const KairosCreativeLandingPage = () => {
   const fadeIn = {

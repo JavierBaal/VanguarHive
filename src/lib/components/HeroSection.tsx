@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Importar Link
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/lib/components/ui/button"; // Corrected path
 import { ArrowRight } from "lucide-react";
 
 interface HeroSectionProps {

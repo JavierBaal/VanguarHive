@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form"; // Import useForm
 import { zodResolver } from "@hookform/resolvers/zod"; // Import zodResolver
 import * as z from "zod"; // Import zod
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/lib/components/ui/button"; // Corrected path
+import { Input } from "@/lib/components/ui/input"; // Corrected path
+import { Label } from "@/lib/components/ui/label"; // Corrected path
+import { Textarea } from "@/lib/components/ui/textarea"; // Corrected path
 import {
   Form, // Import Form components from Shadcn
   FormControl,
@@ -14,8 +14,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast"; // Import useToast
+} from "@/lib/components/ui/form"; // Corrected path
+import { useToast } from "@/lib/components/ui/use-toast"; // Corrected path
 import {
   ArrowRight,
   Loader2, // Import Loader icon
@@ -30,8 +30,8 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/lib/components/ui/card"; // Corrected path
+import { Badge } from "@/lib/components/ui/badge"; // Corrected path
 
 // 1. Define Zod schema for validation
 const formSchema = z.object({

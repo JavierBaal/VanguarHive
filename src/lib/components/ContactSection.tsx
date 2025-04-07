@@ -2,19 +2,19 @@ import React, { useState } from "react"; // Keep useState for isSubmitting
 import { useForm } from "react-hook-form"; // Import useForm
 import { zodResolver } from "@hookform/resolvers/zod"; // Import zodResolver
 import * as z from "zod"; // Import zod
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/lib/components/ui/card"; // Corrected path
+import { Input } from "@/lib/components/ui/input"; // Corrected path
 // Label might still be used outside the form, keep it for now
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Label } from "@/lib/components/ui/label"; // Corrected path
+import { Textarea } from "@/lib/components/ui/textarea"; // Corrected path
+import { Button } from "@/lib/components/ui/button"; // Corrected path
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/lib/components/ui/select"; // Corrected path
 import {
   Form, // Import Form components from Shadcn
   FormControl,
@@ -22,8 +22,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast"; // Import useToast
+} from "@/lib/components/ui/form"; // Corrected path
+import { useToast } from "@/lib/components/ui/use-toast"; // Corrected path
 import { Mail, Linkedin, Loader2 } from "lucide-react"; // Import Loader2
 
 // 1. Define Zod schema for validation

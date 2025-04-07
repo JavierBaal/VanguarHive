@@ -1,9 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
+// Corrected relative paths
 import HeroSection from "./HeroSection";
 import ProjectsSection from "./ProjectsSection";
 import ContactSection from "./ContactSection";
-import Footer from "./Footer"; // Import the new Footer component
+import Footer from "./Footer";
 
 // Ensure AboutSection is NOT imported
 // import AboutSection from "./AboutSection";

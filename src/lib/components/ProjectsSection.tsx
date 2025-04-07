@@ -6,9 +6,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+} from "@/lib/components/ui/card"; // Corrected path
+import { Button } from "@/lib/components/ui/button"; // Corrected path
+import { Badge } from "@/lib/components/ui/badge"; // Corrected path
 import { motion } from "framer-motion";
 
 interface Project {
