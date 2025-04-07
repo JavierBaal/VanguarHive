@@ -28,10 +28,15 @@ import {
   Brain,
   Headphones,
   Linkedin,
-  Twitter,
+  Twitter, // Keep Twitter for now, might be used elsewhere or intended
 } from "lucide-react";
 import { Card, CardContent } from "@/lib/components/ui/card"; // Corrected path
 import { Badge } from "@/lib/components/ui/badge"; // Corrected path
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/lib/components/ui/dialog"; // Import Dialog components
 
 // 1. Define Zod schema for validation
 const formSchema = z.object({
@@ -72,23 +77,7 @@ const TehorIALandingPage = () => {
         }),
       });
 
-      // --- DEBUG: Log raw response ---
-      console.log('Raw fetch response status:', response.status);
-      console.log('Raw fetch response statusText:', response.statusText);
-      const responseText = await response.text(); // Read response as text first
-      console.log('Raw fetch response text:', responseText);
-      // --- END DEBUG ---
-
-      // Try parsing the text as JSON
-      let result;
-      try {
-        result = JSON.parse(responseText);
-      } catch (parseError) {
-         console.error("Failed to parse response as JSON:", parseError);
-         // Throw an error to be caught by the outer catch block
-         throw new Error(`Server returned non-JSON response (Status: ${response.status})`);
-      }
-      // const result = await response.json(); // Original line that might be failing
+      const result = await response.json(); // Assuming server sends JSON
 
       if (response.ok) {
         toast({
@@ -955,57 +944,75 @@ const TehorIALandingPage = () => {
             </Card> {/* Closing Card */}
           </div> {/* Closing div for first column */}
 
-          {/* Video Placeholder with more compelling design */}
+          {/* Video Section with Dialog */}
           <div className="flex items-center justify-center">
-            <div className="aspect-video w-full bg-gradient-to-br from-cyan-900/20 to-purple-900/20 rounded-xl shadow-2xl overflow-hidden border-2 border-slate-700 relative">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-white text-center p-8 z-10">
-                  <h3 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
-                    TehorIA en Acción
-                  </h3>
-                  <p className="mb-6 text-slate-300 max-w-md mx-auto">
-                    Mira cómo TehorIA transforma el proceso creativo musical y
-                    revoluciona la forma en que produces música.
-                  </p>
-                  <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 cursor-pointer hover:from-cyan-500 hover:to-purple-500 transition-colors shadow-lg hover:shadow-cyan-500/20">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8 text-white"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                    </svg>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="aspect-video w-full bg-gradient-to-br from-cyan-900/20 to-purple-900/20 rounded-xl shadow-2xl overflow-hidden border-2 border-slate-700 relative cursor-pointer group">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-white text-center p-8 z-10">
+                      <h3 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
+                        TehorIA en Acción
+                      </h3>
+                      <p className="mb-6 text-slate-300 max-w-md mx-auto">
+                        Mira cómo TehorIA transforma el proceso creativo musical y
+                        revoluciona la forma en que produces música.
+                      </p>
+                      <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 transition-all duration-300 group-hover:scale-110 group-hover:shadow-cyan-500/30 shadow-lg">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-8 w-8 text-white"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Decorative elements */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNMzYgMzRoLTJ2LTRoMnY0em0wLTZ2LTRoLTJ2NGgyek0zMCAzNGgtMnYtNGgydjR6bTAtNnYtNGgtMnY0aDJ6TTI0IDM0aC0ydi00aDJ2NHptMC02di00aC0ydjRoMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-5"></div>
+
+                  <motion.div
+                    className="absolute w-[300px] h-[300px] rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 opacity-20 blur-3xl"
+                    animate={{
+                      x: [0, 30, 0],
+                      y: [0, -30, 0],
+                      scale: [1, 1.1, 1],
+                    }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  />
                 </div>
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNMzYgMzRoLTJ2LTRoMnY0em0wLTZ2LTRoLTJ2NGgyek0zMCAzNGgtMnYtNGgydjR6bTAtNnYtNGgtMnY0aDJ6TTI0IDM0aC0ydi00aDJ2NHptMC02di00aC0ydjRoMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-5"></div>
-
-              <motion.div
-                className="absolute w-[300px] h-[300px] rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 opacity-20 blur-3xl"
-                animate={{
-                  x: [0, 30, 0],
-                  y: [0, -30, 0],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-              />
-            </div>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[800px] p-0 bg-black border-slate-800 overflow-hidden">
+                <div className="aspect-video">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/m5913fGfVGw?autoplay=1" // Added autoplay
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div> {/* Closing div for grid */}
       </section> {/* Closing section */}
