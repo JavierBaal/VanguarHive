@@ -1,4 +1,5 @@
 import React, { useState } from "react"; // Import useState
+import { Helmet } from "react-helmet-async"; // Import Helmet
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form"; // Import useForm
 import { zodResolver } from "@hookform/resolvers/zod"; // Import zodResolver
@@ -94,6 +95,10 @@ const KairosJuristaLandingPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>KAIROS Jurista - Simulación Legal con IA | VanguardHive</title>
+        <meta name="description" content="KAIROS Jurista: Plataforma de simulación de escenarios jurídicos con IA para revolucionar la estrategia legal. Solicita acceso beta." />
+      </Helmet>
       {/* Hero Section */}
       <section className="relative w-full min-h-[800px] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center overflow-hidden">
         {/* Background grid pattern */}

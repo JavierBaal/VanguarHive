@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async"; // Import Helmet
 import { motion } from "framer-motion";
 import HeroSection from "./HeroSection"; // Corrected relative path
 import Footer from "./Footer"; // Corrected relative path
@@ -19,6 +20,10 @@ const KairosCreativeLandingPage = () => {
       variants={fadeIn}
       className="bg-slate-900 text-slate-200"
     >
+      <Helmet>
+        <title>Kairos Creative - Publicidad IA Revolucionaria | VanguardHive</title>
+        <meta name="description" content="Kairos Creative: IA Multiagente para crear campañas publicitarias ultrarrápidas y efectivas. Descubre el futuro de la publicidad." />
+      </Helmet>
       {/* Hero Section Adaptada */}
       <HeroSection
         title="Kairos Creative"

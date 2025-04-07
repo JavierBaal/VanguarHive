@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async"; // Import Helmet
 import { motion } from "framer-motion";
 // Corrected paths using alias
 import { Avatar, AvatarFallback, AvatarImage } from "@/lib/components/ui/avatar";
@@ -25,6 +26,10 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <Helmet>
+        <title>Detrás de VanguardHive - Javier Baal | VanguardHive</title>
+        <meta name="description" content="Conoce a Javier Baal, fundador de VanguardHive, y su visión sobre la fusión de IA, creatividad y tecnología disruptiva." />
+      </Helmet>
       {/* 1. Add Hero Section */}
       <HeroSection
         title="Detrás de VanguardHive"
