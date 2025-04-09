@@ -51,6 +51,20 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // JetBrains-inspired & Kairos Creative Palette
+        'jb-dark': '#1A1A1A', // Very dark gray for elements
+        'jb-purple': '#8A2BE2', // Vibrant purple
+        'jb-blue': '#007FFF',   // Bright blue
+        'jb-green': '#20B2AA',  // Teal/Green
+        'jb-pink': '#FF1493',   // Deep pink/Magenta
+        'kc-gold': '#FFD700',   // Gold from pitch
+        'kc-red': '#FF3333',     // Red from pitch
+        // Literal AI Inspired Palette
+        'lit-bg': '#111111',      // Very dark gray background
+        'lit-card': '#1C1C1C',    // Slightly lighter gray for cards
+        'lit-pink': '#FF00A9',    // Vibrant pink/magenta accent
+        'lit-blue': '#00BFFF',    // Deep sky blue accent
+        'lit-border': '#333333',  // Dark gray border
       },
       borderRadius: {
         lg: "var(--radius)",

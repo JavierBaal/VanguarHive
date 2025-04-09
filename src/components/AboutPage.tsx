@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async"; // Import Helmet
 import { motion } from "framer-motion";
+import { useTranslation, Trans } from 'react-i18next'; // Import useTranslation and Trans
 // Corrected paths using alias
 import { Avatar, AvatarFallback, AvatarImage } from "@/lib/components/ui/avatar";
 import { Button } from "@/lib/components/ui/button";
@@ -18,6 +19,7 @@ const fadeIn = {
 };
 
 const AboutPage = () => {
+  const { t } = useTranslation(); // Initialize translation hook
   const navigate = useNavigate();
 
   // Updated URLs
@@ -25,22 +27,23 @@ const AboutPage = () => {
   const xUrl = "https://x.com/javierbaal00"; // Updated X URL
 
   return (
+    // Use bg-background (very dark gray)
     <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
-        <title>Detrás de VanguardHive - Javier Baal | VanguardHive</title>
-        <meta name="description" content="Conoce a Javier Baal, fundador de VanguardHive, y su visión sobre la fusión de IA, creatividad y tecnología disruptiva." />
+        <title>{t('about.meta.title')}</title>
+        <meta name="description" content={t('about.meta.description')} />
       </Helmet>
-      {/* 1. Add Hero Section */}
+      {/* 1. Add Hero Section - Use translated props */}
       <HeroSection
-        title="Detrás de VanguardHive"
-        subtitle="El Fundador"
-        description="Conoce la mente que impulsa la innovación en la intersección de la IA y la creatividad."
-        ctaText="Volver al Inicio"
+        title={t('about.hero.title')}
+        subtitle={t('about.hero.subtitle')}
+        description={t('about.hero.description')}
+        ctaText={t('about.hero.cta')}
         onCtaClick={() => navigate('/')}
       />
 
-      {/* 2. Main content section */}
-      <section className="py-20 px-4 md:px-8 lg:px-16 bg-slate-900 text-white flex-grow">
+      {/* 2. Main content section - Use bg-background, adjust text colors */}
+      <section className="py-20 px-4 md:px-8 lg:px-16 bg-background text-foreground flex-grow">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial="hidden"
@@ -49,41 +52,42 @@ const AboutPage = () => {
             variants={fadeIn}
           >
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
-              {/* Profile Card */}
+              {/* Profile Card - Use bg-card, lit-border, accent colors */}
               <div className="lg:col-span-1 flex flex-col items-center">
-                <Card className="w-full max-w-sm bg-slate-800/50 border-cyan-500/20">
+                <Card className="w-full max-w-sm bg-card border border-lit-border">
                   <CardContent className="p-6 text-center">
-                    <Avatar className="w-32 h-32 mx-auto mb-4 border-2 border-cyan-400">
+                     {/* Use accent border */}
+                    <Avatar className="w-32 h-32 mx-auto mb-4 border-2 border-lit-pink">
                       <AvatarImage src="/images/Javier-Baal_Fran-Barbero-2025.jpg" alt="Javier Baal" />
-                      <AvatarFallback className="text-4xl font-bold bg-gradient-to-r from-cyan-600 to-purple-600">
+                       {/* Use accent gradient for fallback */}
+                      <AvatarFallback className="text-4xl font-bold bg-gradient-to-r from-lit-blue to-lit-pink text-white">
                         JB
                       </AvatarFallback>
                     </Avatar>
-                    {/* Added text-white for better contrast */}
-                    <h3 className="text-2xl font-bold mb-1 text-white">Javier Baal</h3>
-                    <p className="text-cyan-400 mb-4">Fundador de VanguardHive</p>
+                    <h3 className="text-2xl font-bold mb-1 text-foreground">Javier Baal</h3> {/* Keep name static */}
+                     {/* Use accent color */}
+                    <p className="text-lit-pink mb-4">{t('about.profile.role')}</p>
                     <div className="flex justify-center space-x-4">
-                      {/* X Button */}
+                      {/* X Button - Style for dark mode */}
                       <Button
                         variant="outline"
                         size="icon"
-                        className="border-slate-600 hover:bg-slate-700"
+                        className="border-lit-border hover:bg-lit-card text-muted-foreground hover:text-foreground"
                         asChild
                       >
-                        <a href={xUrl} target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
-                          {/* Using a simple 'X' text for now */}
-                          <span className="font-bold text-slate-300">X</span>
+                        <a href={xUrl} target="_blank" rel="noopener noreferrer" aria-label={t('about.profile.aria.x')}>
+                          <span className="font-bold">X</span>
                         </a>
                       </Button>
-                      {/* LinkedIn Button */}
+                      {/* LinkedIn Button - Style for dark mode */}
                       <Button
                         variant="outline"
                         size="icon"
-                        className="border-slate-600 hover:bg-slate-700"
+                        className="border-lit-border hover:bg-lit-card text-muted-foreground hover:text-foreground"
                         asChild
                       >
-                        <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                          <Linkedin className="h-5 w-5 text-slate-300" />
+                        <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" aria-label={t('about.profile.aria.linkedin')}>
+                          <Linkedin className="h-5 w-5" />
                         </a>
                       </Button>
                     </div>
@@ -91,45 +95,30 @@ const AboutPage = () => {
                 </Card>
               </div>
 
-              {/* Bio Text */}
+              {/* Bio Text - Ensure text uses foreground or muted-foreground */}
               <div className="lg:col-span-2">
-                {/* Changed text-slate-300 to text-slate-200 for better contrast */}
-                <div className="space-y-5 text-slate-200 text-lg leading-relaxed">
+                <div className="space-y-5 text-muted-foreground text-lg leading-relaxed">
+                  <p>{t('about.bio.p1')}</p>
                   <p>
-                    Javier Baal no es un testigo de la revolución tecnológica; es
-                    un protagonista que la ha vivido y moldeado desde dentro. Su
-                    viaje comenzó en 1984 con un Commodore 16, forjando una
-                    conexión íntima con cada ola tecnológica, desde el pixel
-                    hasta la IA generativa.
+                     {/* Use accent colors for highlights */}
+                    <Trans i18nKey="about.bio.p2">
+                      As a technological creative director, he left his mark on iconic brands such as <span className="text-lit-blue font-medium">El Corte Inglés</span> (Doble Cero), <span className="text-lit-blue font-medium">Sony PlayStation</span>, <span className="text-lit-blue font-medium">Häagen-Dazs</span>, and <span className="text-lit-blue font-medium">Blackberry</span>, demonstrating his ability to make technology impactful.
+                    </Trans>
                   </p>
+                  <p>{t('about.bio.p3')}</p>
                   <p>
-                    Como director creativo tecnológico, dejó su huella en marcas
-                    icónicas como <span className="text-cyan-400 font-medium">El Corte Inglés</span> (Doble Cero),{" "}
-                    <span className="text-cyan-400 font-medium">Sony PlayStation</span>,{" "}
-                    <span className="text-cyan-400 font-medium">Häagen-Dazs</span> y{" "}
-                    <span className="text-cyan-400 font-medium">Blackberry</span>, demostrando su habilidad para hacer
-                    impactar la tecnología.
+                     {/* Use accent colors for highlights */}
+                    <Trans i18nKey="about.bio.p4">
+                      Here lies the difference: his <span className="text-lit-pink font-medium">neurodivergent mind</span> and <span className="text-lit-pink font-medium">synesthesia</span> are not just characteristics, they are cognitive superpowers. They allow him to perceive technology, connect invisible dots, and see patterns from radically new angles.
+                    </Trans>
                   </p>
-                  <p>
-                    La llegada de GPT en 2020 no fue solo una noticia, fue una
-                    llamada. Javier se sumergió para entender la IA desde su
-                    núcleo, no para seguir tendencias, sino para anticiparlas.
+                  <p className="text-xl font-semibold text-foreground mt-4"> {/* Use foreground */}
+                    <Trans i18nKey="about.bio.p5">
+                      <span className="text-lit-blue">VanguardHive</span> is the materialization of this vision: a laboratory where AI becomes a new language to create disruptive solutions that challenge the possible.
+                    </Trans>
                   </p>
-                  <p>
-                    Aquí reside la diferencia: su <span className="text-purple-400 font-medium">mente neurodivergente</span> y{" "}
-                    <span className="text-purple-400 font-medium">sinestesia</span> no son solo características, son
-                    superpoderes cognitivos. Le permiten percibir la tecnología,
-                    conectar puntos invisibles y ver patrones desde ángulos
-                    radicalmente nuevos.
-                  </p>
-                  <p className="text-xl font-semibold text-white mt-4">
-                    <span className="text-cyan-400">VanguardHive</span> es la
-                    materialización de esta visión: un laboratorio donde la IA se
-                    convierte en un nuevo lenguaje para crear soluciones
-                    disruptivas que desafían lo posible.
-                  </p>
-                  <p className="font-medium text-white">
-                    Bienvenidos al futuro, rediseñado por VanguardHive.
+                  <p className="font-medium text-foreground"> {/* Use foreground */}
+                    {t('about.bio.p6')}
                   </p>
                 </div>
               </div>

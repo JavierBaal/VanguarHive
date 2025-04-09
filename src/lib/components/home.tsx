@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async"; // Import Helmet
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 // Corrected relative paths
 import HeroSection from "./HeroSection";
 import ProjectsSection from "./ProjectsSection";
@@ -16,11 +17,13 @@ const fadeIn = {
 };
 
 const Home = () => {
+  const { t } = useTranslation(); // Initialize translation hook
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>VanguardHive - Innovación con IA y Creatividad</title>
-        <meta name="description" content="VanguardHive fusiona IA y creatividad para crear soluciones disruptivas. Explora nuestros proyectos como TehorIA, Kairos Jurista y Kairos Creative." />
+        <title>{t('home.meta.title')}</title>
+        <meta name="description" content={t('home.meta.description')} />
       </Helmet>
       <motion.div
         initial="hidden"
@@ -48,41 +51,43 @@ const Home = () => {
         variants={fadeIn}
         className="w-full"
       >
-        <div className="container mx-auto px-4 py-20">
+         {/* Use bg-background, ensure text colors are correct */}
+        <div className="container mx-auto px-4 py-20 bg-background">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Tecnología que Empodera
+             {/* Ensure title uses foreground */}
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+              {t('home.empower.title')}
             </h2>
+             {/* Ensure description uses muted-foreground */}
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Desde MVPs listos para el mercado hasta visiones futuristas,
-              nuestro objetivo es acelerar el descubrimiento humano a través de
-              la IA.
+              {t('home.empower.description')}
             </p>
           </div>
 
+           {/* Use bg-card, lit-border, ensure text colors */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <div className="p-6 bg-card rounded-xl shadow-md text-center">
-              <h3 className="text-3xl font-bold mb-2">Creatividad</h3>
+            <div className="p-6 bg-card border border-lit-border rounded-xl shadow-md text-center">
+              <h3 className="text-3xl font-bold mb-2 text-card-foreground">{t('home.concept.creativity.title')}</h3>
               <p className="text-muted-foreground">
-                Innovación humana que impulsa soluciones únicas
+                {t('home.concept.creativity.description')}
               </p>
             </div>
-            <div className="p-6 bg-card rounded-xl shadow-md text-center">
-              <h3 className="text-3xl font-bold mb-2">IA</h3>
+            <div className="p-6 bg-card border border-lit-border rounded-xl shadow-md text-center">
+              <h3 className="text-3xl font-bold mb-2 text-card-foreground">{t('home.concept.ai.title')}</h3>
               <p className="text-muted-foreground">
-                Tecnología de vanguardia que potencia cada proyecto
+                {t('home.concept.ai.description')}
               </p>
             </div>
-            <div className="p-6 bg-card rounded-xl shadow-md text-center">
-              <h3 className="text-3xl font-bold mb-2">Disrupción</h3>
+            <div className="p-6 bg-card border border-lit-border rounded-xl shadow-md text-center">
+              <h3 className="text-3xl font-bold mb-2 text-card-foreground">{t('home.concept.disruption.title')}</h3>
               <p className="text-muted-foreground">
-                Transformando industrias con soluciones innovadoras
+                {t('home.concept.disruption.description')}
               </p>
             </div>
-            <div className="p-6 bg-card rounded-xl shadow-md text-center">
-              <h3 className="text-3xl font-bold mb-2">Colmena</h3>
+            <div className="p-6 bg-card border border-lit-border rounded-xl shadow-md text-center">
+              <h3 className="text-3xl font-bold mb-2 text-card-foreground">{t('home.concept.hive.title')}</h3>
               <p className="text-muted-foreground">
-                Colaboración que multiplica el potencial creativo
+                {t('home.concept.hive.description')}
               </p>
             </div>
           </div>
@@ -90,25 +95,29 @@ const Home = () => {
           <div className="flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl w-full text-center">
               <div className="flex flex-col items-center">
-                <div className="text-4xl font-bold mb-2">IA</div>
+                 {/* Apply accent color */}
+                <div className="text-4xl font-bold mb-2 text-lit-blue">{t('home.formula.ai.label')}</div>
                 <p className="text-sm text-muted-foreground">
-                  Tecnología de vanguardia
+                  {t('home.formula.ai.description')}
                 </p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="text-4xl font-bold mb-2">Creatividad</div>
+                 {/* Apply accent color */}
+                <div className="text-4xl font-bold mb-2 text-lit-pink">{t('home.formula.creativity.label')}</div>
                 <p className="text-sm text-muted-foreground">
-                  Innovación humana
+                  {t('home.formula.creativity.description')}
                 </p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="text-4xl font-bold mb-2">=</div>
-                <p className="text-sm text-muted-foreground">Fusión única</p>
+                 {/* Keep foreground or use a neutral accent */}
+                <div className="text-4xl font-bold mb-2 text-foreground">{t('home.formula.equals.label')}</div>
+                <p className="text-sm text-muted-foreground">{t('home.formula.equals.description')}</p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="text-4xl font-bold mb-2">∞</div>
+                 {/* Apply accent color */}
+                <div className="text-4xl font-bold mb-2 text-lit-blue">{t('home.formula.infinity.label')}</div>
                 <p className="text-sm text-muted-foreground">
-                  Posibilidades infinitas
+                  {t('home.formula.infinity.description')}
                 </p>
               </div>
             </div>

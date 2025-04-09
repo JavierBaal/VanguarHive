@@ -4,13 +4,14 @@
 
   @layer base {
     :root {
-      --background: 0 0% 100%;
-      --foreground: 222.2 84% 4.9%;
+      /* Literal AI Style: Default to dark */
+      --background: 0 0% 7%; /* Corresponds to #111111 */
+      --foreground: 210 40% 98%; /* Almost white */
 
-      --card: 0 0% 100%;
-      --card-foreground: 222.2 84% 4.9%;
+      --card: 0 0% 11%; /* Corresponds to #1C1C1C */
+      --card-foreground: 210 40% 98%; /* Almost white */
 
-      --popover: 0 0% 100%;
+      --popover: 0 0% 11%; /* Dark card background */
       --popover-foreground: 222.2 84% 4.9%;
 
       --primary: 222.2 47.4% 11.2%;
@@ -30,19 +31,22 @@
 
       --border: 214.3 31.8% 91.4%;
       --input: 214.3 31.8% 91.4%;
-      --ring: 222.2 84% 4.9%;
+      --border: 0 0% 20%; /* Corresponds to #333333 */
+      --input: 0 0% 20%; /* Dark border for inputs */
+      --ring: 210 40% 98%; /* Ring color (adjust if needed) */
 
       --radius: 0.5rem;
     }
 
     .dark {
-      --background: 222.2 84% 4.9%;
+      /* Ensure dark mode uses the same base colors */
+      --background: 0 0% 7%; /* #111111 */
       --foreground: 210 40% 98%;
 
-      --card: 222.2 84% 4.9%;
+      --card: 0 0% 11%; /* #1C1C1C */
       --card-foreground: 210 40% 98%;
 
-      --popover: 222.2 84% 4.9%;
+      --popover: 0 0% 11%; /* #1C1C1C */
       --popover-foreground: 210 40% 98%;
 
       --primary: 210 40% 98%;
@@ -60,9 +64,9 @@
       --destructive: 0 62.8% 30.6%;
       --destructive-foreground: 210 40% 98%;
 
-      --border: 217.2 32.6% 17.5%;
-      --input: 217.2 32.6% 17.5%;
-      --ring: 212.7 26.8% 83.9%;
+      --border: 0 0% 20%; /* #333333 */
+      --input: 0 0% 20%; /* #333333 */
+      --ring: 210 40% 98%; /* Ring color */
     }
   }
 

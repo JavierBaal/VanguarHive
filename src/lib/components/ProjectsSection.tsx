@@ -10,6 +10,7 @@ import {
 import { Button } from "@/lib/components/ui/button"; // Corrected path
 import { Badge } from "@/lib/components/ui/badge"; // Corrected path
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 interface Project {
   title: string;
@@ -22,46 +23,45 @@ interface Project {
 }
 
 const ProjectsSection = () => {
+  const { t } = useTranslation(); // Initialize translation hook
+
+  // Define projects using translation keys
   const projects: Project[] = [
     {
-      title: "TehorIA",
-      subtitle: "IA Musical",
-      description:
-        "Un DAW conversacional con IA, listo para revolucionar la música. Únete a la beta pública ahora.",
-      status: "Beta Pública",
-      ctaText: "Más información",
+      title: t('projects.tehoria.title'),
+      subtitle: t('projects.tehoria.subtitle'),
+      description: t('projects.tehoria.description'),
+      status: t('projects.tehoria.status'),
+      ctaText: t('projects.tehoria.cta'),
       ctaLink: "/tehoria",
       statusColor: "default",
     },
     {
-      title: "KAIROS",
-      subtitle: "Multiagente",
-      description:
-        "Simulaciones avanzadas y creatividad multiagente, en desarrollo.",
-      status: "En Desarrollo",
-      ctaText: "Más información",
-      ctaLink: "#",
+      title: t('projects.kairos.title'),
+      subtitle: t('projects.kairos.subtitle'),
+      description: t('projects.kairos.description'),
+      status: t('projects.kairos.status'),
+      ctaText: t('projects.kairos.cta'),
+      ctaLink: "#", // Keep link as is for now
       statusColor: "secondary",
     },
     {
-      title: "KAIROS Jurista",
-      subtitle: "Legal Tech",
-      description:
-        "Una vertical de KAIROS enfocada en Legal Tech, en desarrollo.",
-      status: "Beta Pública",
-      ctaText: "Más información",
+      title: t('projects.kairosJurista.title'),
+      subtitle: t('projects.kairosJurista.subtitle'),
+      description: t('projects.kairosJurista.description'),
+      status: t('projects.kairosJurista.status'),
+      ctaText: t('projects.kairosJurista.cta'),
       ctaLink: "/kairos-jurista",
       statusColor: "default",
     },
     {
-      title: "Kairos Creative",
-      subtitle: "Publicidad IA",
-      description:
-        "Plataforma de IA multiagente para la creación y simulación de campañas publicitarias ultrarrápidas.",
-      status: "MVP Inminente",
-      ctaText: "Más información",
+      title: t('projects.kairosCreative.title'),
+      subtitle: t('projects.kairosCreative.subtitle'),
+      description: t('projects.kairosCreative.description'),
+      status: t('projects.kairosCreative.status'),
+      ctaText: t('projects.kairosCreative.cta'),
       ctaLink: "/kairos-creative",
-      statusColor: "default", // Or maybe "secondary" if still in dev? Let's use default like the others.
+      statusColor: "default",
     },
   ];
 
@@ -87,24 +87,25 @@ const ProjectsSection = () => {
   };
 
   return (
+    // Original styling before Literal AI changes
     <section className="py-20 px-4 md:px-8 lg:px-16 bg-background">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 text-center">
           <div className="flex items-center justify-center mb-4">
             <span className="text-sm font-medium text-muted-foreground mr-2">
-              01
+              01 {/* Original pretitle number */}
             </span>
-            <div className="h-px w-8 bg-primary"></div>
+            <div className="h-px w-8 bg-primary"></div> {/* Original primary color */}
           </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Proyectos que Transforman
+            {t('projects.sectionTitle')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            En VanguardHIVE, desarrollamos soluciones IA que desafían lo
-            convencional y abren nuevas posibilidades.
+            {t('projects.sectionDescription')}
           </p>
         </div>
 
+        {/*
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
@@ -134,14 +135,18 @@ const ProjectsSection = () => {
                   <p className="text-muted-foreground">{project.description}</p>
                 </CardContent>
                 <CardFooter>
-                  <Button asChild className="w-full">
-                    <a href={project.ctaLink}>{project.ctaText}</a>
-                  </Button>
+                   <a
+                     href={project.ctaLink}
+                     className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-full bg-lit-pink text-white hover:opacity-90 h-10 px-4 py-2" // Mimic Button styles directly on <a>
+                   >
+                     {project.ctaText}
+                   </a>
                 </CardFooter>
               </Card>
             </motion.div>
           ))}
         </motion.div>
+        */}
       </div>
     </section>
   );

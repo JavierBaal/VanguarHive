@@ -1,207 +1,282 @@
 import React from "react";
-import { Helmet } from "react-helmet-async"; // Import Helmet
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import HeroSection from "./HeroSection"; // Corrected relative path
-import Footer from "./Footer"; // Corrected relative path
-import ContactSection from "./ContactSection"; // Corrected relative path
-import { Card, CardContent, CardHeader, CardTitle } from "@/lib/components/ui/card"; // Corrected path
-import { Separator } from "@/lib/components/ui/separator"; // Corrected path
+import { useTranslation, Trans } from 'react-i18next';
+// Removed HeroSection import as this page has its own custom hero
+// import Footer from "./Footer"; // Re-using Footer might need adjustments
+// Removed ContactSection import as it's handled by Patreon link
+import { Card, CardContent, CardHeader, CardTitle } from "@/lib/components/ui/card";
+import { Separator } from "@/lib/components/ui/separator";
+import { Button } from "@/lib/components/ui/button";
+import { Lock, DoorOpen, Gift, Clock } from "lucide-react"; // Added Clock icon
 
 const KairosCreativeLandingPage = () => {
+  const { t } = useTranslation();
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
+  // Static calculator display - Uses the corrected translation key
+  const staticCalculatorDisplay = t('kairosCreative.v2.hero.calculator.result');
+
+  // Placeholder for Patreon link - replace with actual link
+  const patreonLink = "YOUR_PATREON_LINK_HERE"; // IMPORTANT: Replace this!
+
   return (
+    // Base dark background and light text
     <motion.div
       initial="hidden"
       animate="visible"
       variants={fadeIn}
-      className="bg-slate-900 text-slate-200"
+      className="bg-background text-foreground"
     >
       <Helmet>
-        <title>Kairos Creative - Publicidad IA Revolucionaria | VanguardHive</title>
-        <meta name="description" content="Kairos Creative: IA Multiagente para crear campañas publicitarias ultrarrápidas y efectivas. Descubre el futuro de la publicidad." />
+        <title>{t('kairosCreative.v2.meta.title')}</title>
+        <meta name="description" content={t('kairosCreative.v2.meta.description')} />
       </Helmet>
-      {/* Hero Section Adaptada */}
-      <HeroSection
-        title="Kairos Creative"
-        subtitle="La Revolución de la Publicidad Creativa"
-        description='IA Multiagente que Cambia el Juego Publicitario. Creamos campañas en horas, no semanas.'
-        ctaText="Únete a la Revolución"
-        onCtaClick={() => document.getElementById('contact-kairos-creative')?.scrollIntoView({ behavior: 'smooth' })}
-      />
 
-      {/* Contenido del Pitch */}
+      {/* Section 1: Hero Section - Apply Literal AI Style Consistently */}
+      <section className="relative w-full min-h-screen bg-black flex items-center justify-center overflow-hidden px-4">
+         {/* Orbs with Literal AI colors */}
+         <motion.div
+            className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-r from-lit-blue to-lit-pink opacity-15 blur-3xl"
+            animate={{ x: [0, 40, 0], y: [0, -40, 0], scale: [1, 1.1, 1] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-[400px] h-[400px] left-1/4 top-1/4 rounded-full bg-gradient-to-r from-purple-600 to-cyan-400 opacity-10 blur-3xl" // Example secondary orb
+            animate={{ x: [0, -30, 0], y: [0, 30, 0], scale: [1, 1.05, 1] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          />
+         <div className="container mx-auto z-10 text-center">
+            <motion.h1
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 leading-tight"
+              style={{ textShadow: '0 0 10px #FF00A9' }} // Use lit-pink hex for glow
+              variants={fadeIn}
+            >
+              {t('kairosCreative.v2.hero.headline')}
+            </motion.h1>
+            <motion.p
+              className="text-lg md:text-xl lg:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto"
+              variants={fadeIn}
+            >
+              {t('kairosCreative.v2.hero.subheadline')}
+            </motion.p>
+
+            {/* Static Time Wasted Calculator Display - Use lit-pink */}
+            <motion.div className="my-8 p-6 bg-black border border-lit-pink rounded-lg max-w-md mx-auto" variants={fadeIn}>
+               <p className="text-white mb-2">{t('kairosCreative.v2.hero.calculator.text')}</p>
+               <p className="text-2xl font-bold text-lit-pink">{staticCalculatorDisplay}</p>
+            </motion.div>
+
+            <motion.div variants={fadeIn}>
+              {/* Style button with lit-pink */}
+              <Button
+                size="lg"
+                className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+                onClick={() => window.open(patreonLink, '_blank')}
+              >
+                {t('kairosCreative.v2.hero.mainCta')}
+              </Button>
+              <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
+                 <Clock className="h-4 w-4 mr-1" />
+                 {t('kairosCreative.v2.hero.subCta')}
+              </p>
+            </motion.div>
+         </div>
+      </section>
+
+      {/* Content Sections - Apply Literal AI style (lit-*) */}
       <div className="container mx-auto px-4 py-16 md:py-24 space-y-16">
 
-        {/* Introducción */}
-        <motion.section variants={fadeIn}>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-8">
-            Introducción: El Momento Perfecto para Hacer Historia
+        {/* Section 2: The Problem */}
+        <motion.section variants={fadeIn} className="bg-card p-8 md:p-12 rounded-lg border border-lit-border">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-lit-blue mb-8">
+            {t('kairosCreative.v2.problem.title')}
           </h2>
-          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed">
-            Imagina un mundo donde las campañas publicitarias se crean en horas, no en semanas. Donde la creatividad no tiene techo y cada idea es más brutal que la anterior. Donde los datos y el instinto humano se fusionan para generar contenido que no solo vende, sino que golpea directo en el alma. Ese mundo no es un sueño lejano; es lo que Kairos Creative está construyendo hoy.
+          <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed">
+             <Trans i18nKey="kairosCreative.v2.problem.p1">
+                default <strong className="text-lit-pink">92%</strong> default <strong className="text-lit-pink">€5,200/year</strong> default
+             </Trans>
           </p>
-          <p className="text-lg md:text-xl text-slate-300 leading-relaxed">
-            El mercado publicitario digital está explotando: se proyecta que alcance los $1.2 billones para 2027. Las marcas están desesperadas por destacar en un mar de contenido mediocre, y los consumidores exigen experiencias únicas y personalizadas. Kairos Creative no es solo una agencia; es una máquina de innovación impulsada por IA multiagente que usa la plataforma KAIROS para redefinir lo que es posible en publicidad. Este es el momento kairos, el instante perfecto para actuar. Si dejas pasar esto, no solo te pierdes un negocio; te pierdes el futuro.
-          </p>
+           {/* Visual placeholder */}
         </motion.section>
 
-        <Separator className="bg-slate-700" />
+        <Separator className="bg-lit-border" />
 
-        {/* El Problema */}
-        <motion.section variants={fadeIn}>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-8">
-            El Problema: La Creatividad Atrapada en el Siglo Pasado
+        {/* Section 3: The Solution */}
+        <motion.section variants={fadeIn} className="p-8 md:p-12 rounded-lg border border-lit-border bg-card">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-8">
+            {t('kairosCreative.v2.solution.title')}
           </h2>
-          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed">
-            Las agencias tradicionales están estancadas. Sus procesos son lentos, caros y obsoletos: briefs infinitos, reuniones eternas y revisiones que nunca acaban. Mientras tanto, las marcas necesitan campañas que se adapten al instante a las tendencias y al comportamiento del consumidor. La solución no es contratar más gente; es tener más inteligencia, más velocidad y más precisión.
+          <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed">
+            {t('kairosCreative.v2.solution.intro')}
           </p>
-          <p className="text-lg md:text-xl text-slate-300 leading-relaxed">
-            Kairos Creative lo resuelve con un sistema de IA multiagente que convierte el caos creativo en una máquina bien aceitada. Tenemos agentes especializados: el "AI Copywriter" que escribe textos que enganchan, el "AI Art Director" que diseña visuales que impactan, y todos trabajan juntos en tiempo real. Pero el verdadero golpe maestro es la plataforma KAIROS: un sistema que simula escenarios publicitarios complejos antes de lanzar una campaña. Podemos predecir resultados, optimizar ideas y garantizar éxito como nadie más en el mercado. Esto no es una agencia; es un laboratorio de creatividad con esteroides.
-          </p>
-        </motion.section>
-
-        <Separator className="bg-slate-700" />
-
-        {/* La Solución */}
-        <motion.section variants={fadeIn}>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-8">
-            La Solución: IA Multiagente que Rompe Todas las Reglas
-          </h2>
-          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed">
-            Kairos Creative no sigue el juego; lo cambia. Aquí te dejo lo que nos hace únicos:
-          </p>
-          <ul className="list-disc list-inside space-y-3 text-lg md:text-xl text-slate-300 mb-6">
-            <li><strong className="text-blue-300">Eficiencia Brutal:</strong> Pasamos de semanas a horas en la creación de campañas. Más velocidad, menos costos, resultados inmediatos.</li>
-            <li><strong className="text-blue-300">Creatividad Imparable:</strong> Nuestra IA no solo genera ideas; las perfecciona con datos en tiempo real, creando contenido que conecta y convierte.</li>
-            <li><strong className="text-blue-300">Escalabilidad Infinita:</strong> Podemos manejar un tsunami de proyectos sin sudar, algo que las agencias tradicionales no sueñan ni en sus mejores días.</li>
-            <li><strong className="text-blue-300">Simulación que Gana:</strong> Con KAIROS, testeamos campañas antes de que salgan al aire, ajustamos variables y maximizamos el ROI. Es como tener el futuro en nuestras manos.</li>
+          <ul className="list-none space-y-3 text-lg md:text-xl text-muted-foreground mb-6">
+            <li className="pl-6 relative before:content-['•'] before:absolute before:left-0 before:text-lit-pink before:font-bold">{t('kairosCreative.v2.solution.listItem1')}</li>
+            <li className="pl-6 relative before:content-['•'] before:absolute before:left-0 before:text-lit-pink before:font-bold">{t('kairosCreative.v2.solution.listItem2')}</li>
+            <li className="pl-6 relative before:content-['•'] before:absolute before:left-0 before:text-lit-pink before:font-bold">{t('kairosCreative.v2.solution.listItem3')}</li>
+            <li className="pl-6 relative before:content-['•'] before:absolute before:left-0 before:text-lit-pink before:font-bold">{t('kairosCreative.v2.solution.listItem4')}</li>
           </ul>
-          <p className="text-lg md:text-xl text-slate-300 leading-relaxed font-semibold">
-            En pocas palabras, somos la agencia del mañana: rápida, inteligente y siempre un paso adelante.
-          </p>
+           <p className="italic text-muted-foreground mb-6">
+             <Trans i18nKey="kairosCreative.v2.solution.testimonial">
+                <span className="font-bold">default</span> default
+             </Trans>
+           </p>
+           {/* Removed outro paragraph as requested */}
+           {/* Visual placeholder */}
         </motion.section>
 
-        <Separator className="bg-slate-700" />
+        <Separator className="bg-lit-border" />
 
-        {/* El Mercado */}
-        <motion.section variants={fadeIn}>
-           <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-8">
-            El Mercado: Un Pastel Gigante Listo para Ser Cortado
+         {/* Section 4: The Numbers Don’t Lie */}
+         <motion.section variants={fadeIn} className="bg-card p-8 md:p-12 rounded-lg border border-lit-border">
+           <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-8">
+             {t('kairosCreative.v2.numbers.title')}
+           </h2>
+           <div className="space-y-4 text-lg md:text-xl text-muted-foreground">
+             <p><Trans i18nKey="kairosCreative.v2.numbers.item1"><strong className="text-lit-blue">0</strong><strong className="text-lit-pink">1</strong></Trans></p>
+             <p><Trans i18nKey="kairosCreative.v2.numbers.item2"><strong className="text-lit-blue">0</strong><strong className="text-lit-pink">1</strong></Trans></p>
+             <p><Trans i18nKey="kairosCreative.v2.numbers.item3"><strong className="text-lit-blue">0</strong><strong className="text-lit-pink">1</strong></Trans></p>
+             <p><Trans i18nKey="kairosCreative.v2.numbers.item4"><strong className="text-lit-blue">0</strong></Trans></p>
+           </div>
+            {/* Visual placeholder */}
+         </motion.section>
+
+        <Separator className="bg-lit-border" />
+
+        {/* Section 5: Social Proof */}
+        <motion.section variants={fadeIn} className="p-8 md:p-12 rounded-lg bg-background">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">
+            {t('kairosCreative.v2.socialProof.title')}
           </h2>
-          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed">
-            El mercado está gritando por soluciones como la nuestra. Mira estos números:
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <Card className="bg-card text-card-foreground border border-lit-pink p-6">
+              <p className="italic mb-4">
+                <Trans i18nKey="kairosCreative.v2.socialProof.testimonial1">
+                  <span className="font-bold">default</span> default
+                </Trans>
+              </p>
+              <p className="text-right font-semibold">– Maria, Freelance Designer, New York.</p>
+            </Card>
+            <Card className="bg-card text-card-foreground border border-lit-pink p-6">
+              <p className="italic mb-4">
+                <Trans i18nKey="kairosCreative.v2.socialProof.testimonial2">
+                  <span className="font-bold">default</span> default
+                </Trans>
+              </p>
+              <p className="text-right font-semibold">– SparkVibe Studio Team, Los Angeles.</p>
+            </Card>
+          </div>
+          <div className="text-center p-4 bg-black border border-lit-pink rounded">
+            <p className="text-xl md:text-2xl font-bold text-lit-pink">
+              {t('kairosCreative.v2.socialProof.stat')}
+            </p>
+          </div>
+        </motion.section>
+
+        <Separator className="bg-lit-border" />
+
+        {/* Section 6: Exclusivity + Urgency */}
+        <motion.section variants={fadeIn} className="p-8 md:p-12 rounded-lg text-center border border-lit-border bg-card">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8">
+            {t('kairosCreative.v2.exclusivity.title')}
+          </h2>
+          <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed max-w-3xl mx-auto">
+            {t('kairosCreative.v2.exclusivity.intro')}
           </p>
-          <ul className="list-disc list-inside space-y-3 text-lg md:text-xl text-slate-300 mb-6">
-            <li><strong className="text-blue-300">Tamaño del Mercado:</strong> El mercado publicitario digital va rumbo a $1.2 billones para 2027, con una CAGR del 15.4% desde 2025 hasta 2030. Ahí hay espacio de sobra para nosotros.</li>
-            <li><strong className="text-blue-300">Boom de la IA:</strong> El 92% de las empresas planean invertir en IA generativa en los próximos tres años, y el mercado de IA en marketing se proyecta en $217.33 billones para 2034. La demanda está explotando.</li>
-            <li><strong className="text-blue-300">Tendencias Ganadoras:</strong> Hiperpersonalización, publicidad móvil y optimización en tiempo real son el presente y el futuro. Kairos Creative está diseñada para dominarlas todas.</li>
+          <ul className="list-none space-y-3 text-lg md:text-xl text-muted-foreground mb-6 inline-block text-left">
+             <li className="pl-6 relative before:content-['•'] before:absolute before:left-0 before:text-lit-pink before:font-bold">{t('kairosCreative.v2.exclusivity.listItem1')}</li>
+             <li className="pl-6 relative before:content-['•'] before:absolute before:left-0 before:text-lit-pink before:font-bold">{t('kairosCreative.v2.exclusivity.listItem2')}</li>
+             <li className="pl-6 relative before:content-['•'] before:absolute before:left-0 before:text-lit-pink before:font-bold">{t('kairosCreative.v2.exclusivity.listItem3')}</li>
           </ul>
-           <p className="text-lg md:text-xl text-slate-300 leading-relaxed font-semibold">
-            En un mundo donde el contenido manda, nosotros somos los reyes y reinas que lo hacen posible.
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
+             <Trans i18nKey="kairosCreative.v2.exclusivity.outro">
+               default <span className="text-lit-pink italic">sourpuss</span> default
+             </Trans>
           </p>
+           {/* Visual placeholder */}
+           <p className="text-2xl font-bold text-lit-pink mb-8 animate-pulse">
+             {t('kairosCreative.v2.exclusivity.counter')}
+           </p>
+           <Button
+             size="lg"
+             className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+             onClick={() => window.open(patreonLink, '_blank')}
+           >
+             {t('kairosCreative.v2.exclusivity.mainCta')}
+           </Button>
+           <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
+              <Clock className="h-4 w-4 mr-1" />
+              {t('kairosCreative.v2.exclusivity.subCta')}
+           </p>
         </motion.section>
 
-        <Separator className="bg-slate-700" />
+        <Separator className="bg-lit-border" />
 
-        {/* Proyecciones Financieras */}
-        <motion.section variants={fadeIn}>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-8">
-            Proyecciones Financieras: Números que Te Van a Volar la Cabeza
-          </h2>
-          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed">
-            Hablemos de plata, porque aquí es donde se pone serio. Estas son nuestras proyecciones para los primeros tres años:
-          </p>
-          {/* Podríamos usar una tabla aquí si tuviéramos los componentes de tabla de Shadcn */}
-          <Card className="bg-slate-800 border-slate-700 text-slate-300 mb-6">
-            <CardHeader>
-              <CardTitle className="text-blue-300">Proyecciones (Ingresos Estimados)</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="border-b border-slate-700">
-                      <th className="p-2">Año</th>
-                      <th className="p-2">Escenario Base</th>
-                      <th className="p-2">Escenario Optimista</th>
-                      <th className="p-2">Escenario Pesimista</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-slate-700">
-                      <td className="p-2 font-semibold">2026</td>
-                      <td className="p-2">$2.5M</td>
-                      <td className="p-2">$4.0M</td>
-                      <td className="p-2">$1.5M</td>
-                    </tr>
-                    <tr className="border-b border-slate-700">
-                      <td className="p-2 font-semibold">2027</td>
-                      <td className="p-2">$6.0M</td>
-                      <td className="p-2">$10.0M</td>
-                      <td className="p-2">$3.5M</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 font-semibold">2028</td>
-                      <td className="p-2">$12.0M</td>
-                      <td className="p-2">$20.0M</td>
-                      <td className="p-2">$7.0M</td>
-                    </tr>
-                  </tbody>
-                </table>
+        {/* Section 7: Post-CTA */}
+        <motion.section variants={fadeIn} className="bg-card p-8 md:p-12 rounded-lg text-center border border-lit-border">
+           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8">
+             {t('kairosCreative.v2.postCta.title')}
+           </h2>
+           <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
+             {t('kairosCreative.v2.postCta.text')}
+           </p>
+           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
+              {/* Use lit-pink for icons */}
+              <div className="flex items-center space-x-2 text-lit-pink">
+                 <Lock size={20} />
+                 <span>{t('kairosCreative.v2.postCta.icon1')}</span>
               </div>
-            </CardContent>
-          </Card>
-          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed">
-            Con un margen de beneficio del 35% en el escenario base, esto no es solo viable; es una mina de oro. Y con la plataforma KAIROS, podemos escalar a la velocidad de la luz y comernos mercados enteros. Esto no es una apuesta; es un cheque en blanco con tu nombre.
-          </p>
+              <div className="flex items-center space-x-2 text-lit-pink">
+                 <DoorOpen size={20} />
+                 <span>{t('kairosCreative.v2.postCta.icon2')}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-lit-pink">
+                 <Gift size={20} />
+                 <span>{t('kairosCreative.v2.postCta.icon3')}</span>
+              </div>
+           </div>
         </motion.section>
 
-        <Separator className="bg-slate-700" />
+        <Separator className="bg-lit-border" />
 
-        {/* La Oportunidad */}
-        <motion.section variants={fadeIn}>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-8">
-            La Oportunidad: Subirte al Tren o Quedarte en la Estación
-          </h2>
-          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed">
-            Invertir en Kairos Creative no es solo poner dinero; es comprar un boleto al frente de la revolución publicitaria. Los primeros en subirse a esta ola van a dominar el mercado en los próximos años. Imagínate ser el inversor que dijo "sí" a esto. No solo hablamos de billetes; hablamos de dejar un legado.
-          </p>
-          <p className="text-lg md:text-xl text-slate-300 leading-relaxed font-semibold text-yellow-400">
-            Pero ojo, el reloj está corriendo. El mercado no espera, y los competidores ya están oliendo lo que traemos. Si no actúas ahora, alguien más lo hará, y tú serás el que se quede mirando desde afuera, pensando "qué carajo dejé pasar".
-          </p>
-        </motion.section>
-
-        <Separator className="bg-slate-700" />
-
-        {/* Conclusión */}
-        <motion.section variants={fadeIn}>
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-400 mb-8">
-            Conclusión: O Haces Historia o Te Quedas en el Pasado
-          </h2>
-          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed">
-            Kairos Creative no es una agencia más; es el futuro de la publicidad creativa. Con nuestra IA multiagente y la plataforma KAIROS, estamos listos para reventar el mercado. Los números hablan solos, el mercado está hambriento, y la oportunidad es ahora.
-          </p>
-          <p className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed font-semibold">
-            Si no inviertes en esto, no solo pierdes dinero; pierdes la chance de ser parte de algo épico. ¿Vas a ser el visionario que cambió el juego o el viejo vinagre que se quedó cruzado de brazos? El momento kairos está aquí, compañero. Decide rápido.
-          </p>
-          <p className="text-xl md:text-2xl text-center font-bold text-blue-300">
-            ¿Listo para hacer historia? Contáctanos hoy y asegura tu lugar en la cima de la publicidad creativa.
-          </p>
+        {/* Section 8: Bonus */}
+        <motion.section variants={fadeIn} className="p-8 md:p-12 rounded-lg text-center border border-lit-border bg-card">
+           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8">
+             {t('kairosCreative.v2.bonus.title')}
+           </h2>
+           <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
+             <Trans i18nKey="kairosCreative.v2.bonus.text">
+               default <strong className="text-lit-pink">€299</strong> default
+             </Trans>
+           </p>
+            {/* Visual placeholder */}
+           <Button
+             size="lg"
+             className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+             onClick={() => window.open(patreonLink, '_blank')}
+           >
+             {t('kairosCreative.v2.bonus.cta')}
+           </Button>
         </motion.section>
 
       </div>
 
-      {/* Contact Section */}
-      <div id="contact-kairos-creative">
-        <ContactSection formIdentifier="Kairos Creative Interest" />
-      </div>
-
-      {/* Footer */}
-      <Footer />
+      {/* Footer - Simplified version from pitch, styled */}
+       <footer className="bg-black py-8 text-white border-t border-lit-border">
+         <div className="container mx-auto px-4 text-center">
+           <div className="mb-4 text-lit-pink text-2xl font-bold">{t('kairosCreative.v2.hero.title')}</div>
+           <div className="flex justify-center space-x-6 mb-4">
+             <a href="#" className="text-sm text-muted-foreground hover:text-foreground">{t('kairosCreative.v2.footer.terms')}</a>
+             <a href="#" className="text-sm text-muted-foreground hover:text-foreground">{t('kairosCreative.v2.footer.privacy')}</a>
+             <a href="mailto:hello@kairoscreative.com" className="text-sm text-muted-foreground hover:text-foreground">{t('kairosCreative.v2.footer.contact')}</a>
+           </div>
+           {/* Add Social Media Icons here if needed */}
+           <p className="text-sm text-muted-foreground">{t('kairosCreative.v2.footer.copyright')}</p>
+         </div>
+       </footer>
     </motion.div>
   );
 };
