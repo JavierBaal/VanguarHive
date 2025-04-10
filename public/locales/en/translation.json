@@ -12,7 +12,7 @@
   "projects.tehoria.title": "TehorAI",
   "projects.tehoria.subtitle": "Musical AI",
   "projects.tehoria.description": "A conversational AI DAW, ready to revolutionize music. Join the public beta now.",
-  "projects.tehoria.status": "Public Beta",
+  "projects.tehoria.status": "MVP Imminent",
   "projects.tehoria.cta": "Learn More",
   "projects.kairos.title": "KAIROS",
   "projects.kairos.subtitle": "Multi-agent",
@@ -27,7 +27,7 @@
   "projects.kairosCreative.title": "Kairos Creative",
   "projects.kairosCreative.subtitle": "Advertising AI",
   "projects.kairosCreative.description": "Multi-agent AI platform for creating and simulating ultra-fast advertising campaigns.",
-  "projects.kairosCreative.status": "MVP Imminent",
+  "projects.kairosCreative.status": "Public Beta Open",
   "projects.kairosCreative.cta": "Learn More",
 
   "contact.sectionTitle": "Contact Us",
