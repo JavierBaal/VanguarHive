@@ -20,8 +20,8 @@ const KairosCreativeLandingPage = () => {
   // Static calculator display - Uses the corrected translation key
   const staticCalculatorDisplay = t('kairosCreative.v2.hero.calculator.result');
 
-  // Placeholder for Patreon link - replace with actual link
-  const patreonLink = "YOUR_PATREON_LINK_HERE"; // IMPORTANT: Replace this!
+  // Actual Patreon link
+  const patreonLink = "https://www.patreon.com/kairoscreative/";
 
   return (
     // Base dark background and light text
@@ -79,6 +79,7 @@ const KairosCreativeLandingPage = () => {
               >
                 {t('kairosCreative.v2.hero.mainCta')}
               </Button>
+               {/* Use lit-pink text color */}
               <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
                  <Clock className="h-4 w-4 mr-1" />
                  {t('kairosCreative.v2.hero.subCta')}
@@ -124,7 +125,7 @@ const KairosCreativeLandingPage = () => {
                 <span className="font-bold">default</span> default
              </Trans>
            </p>
-           {/* Removed outro paragraph as requested */}
+           {/* Removed outro paragraph */}
            {/* Visual placeholder */}
         </motion.section>
 
@@ -223,44 +224,19 @@ const KairosCreativeLandingPage = () => {
            <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
              {t('kairosCreative.v2.postCta.text')}
            </p>
-           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
-              {/* Use lit-pink for icons */}
-              <div className="flex items-center space-x-2 text-lit-pink">
-                 <Lock size={20} />
-                 <span>{t('kairosCreative.v2.postCta.icon1')}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-lit-pink">
-                 <DoorOpen size={20} />
-                 <span>{t('kairosCreative.v2.postCta.icon2')}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-lit-pink">
-                 <Gift size={20} />
-                 <span>{t('kairosCreative.v2.postCta.icon3')}</span>
-              </div>
+           {/* Replace icons/text with a single CTA button */}
+           <div className="flex justify-center">
+             <Button
+               size="lg"
+               className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+               onClick={() => window.open(patreonLink, '_blank')}
+             >
+               {t('kairosCreative.v2.postCta.combinedCta')}
+             </Button>
            </div>
         </motion.section>
 
-        <Separator className="bg-lit-border" />
-
-        {/* Section 8: Bonus */}
-        <motion.section variants={fadeIn} className="p-8 md:p-12 rounded-lg text-center border border-lit-border bg-card">
-           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8">
-             {t('kairosCreative.v2.bonus.title')}
-           </h2>
-           <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
-             <Trans i18nKey="kairosCreative.v2.bonus.text">
-               default <strong className="text-lit-pink">€299</strong> default
-             </Trans>
-           </p>
-            {/* Visual placeholder */}
-           <Button
-             size="lg"
-             className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-             onClick={() => window.open(patreonLink, '_blank')}
-           >
-             {t('kairosCreative.v2.bonus.cta')}
-           </Button>
-        </motion.section>
+        {/* Section 8: Bonus - REMOVED */}
 
       </div>
 
@@ -268,11 +244,7 @@ const KairosCreativeLandingPage = () => {
        <footer className="bg-black py-8 text-white border-t border-lit-border">
          <div className="container mx-auto px-4 text-center">
            <div className="mb-4 text-lit-pink text-2xl font-bold">{t('kairosCreative.v2.hero.title')}</div>
-           <div className="flex justify-center space-x-6 mb-4">
-             <a href="#" className="text-sm text-muted-foreground hover:text-foreground">{t('kairosCreative.v2.footer.terms')}</a>
-             <a href="#" className="text-sm text-muted-foreground hover:text-foreground">{t('kairosCreative.v2.footer.privacy')}</a>
-             <a href="mailto:hello@kairoscreative.com" className="text-sm text-muted-foreground hover:text-foreground">{t('kairosCreative.v2.footer.contact')}</a>
-           </div>
+           {/* Removed the div containing the links */}
            {/* Add Social Media Icons here if needed */}
            <p className="text-sm text-muted-foreground">{t('kairosCreative.v2.footer.copyright')}</p>
          </div>

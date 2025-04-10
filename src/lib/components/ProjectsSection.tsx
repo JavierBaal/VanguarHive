@@ -105,7 +105,7 @@ const ProjectsSection = () => {
           </p>
         </div>
 
-        {/*
+
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
@@ -115,14 +115,15 @@ const ProjectsSection = () => {
         >
           {projects.map((project, index) => (
             <motion.div key={index} variants={itemVariants}>
-              <Card className="h-full flex flex-col bg-card hover:shadow-lg transition-shadow duration-300">
+              {/* Apply Literal AI styles to Card */}
+              <Card className="h-full flex flex-col bg-card border border-lit-border hover:border-lit-pink transition-colors duration-300 shadow-lg">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
-                      <CardTitle className="text-2xl font-bold">
+                      <CardTitle className="text-2xl font-bold text-card-foreground">
                         {project.title}
                       </CardTitle>
-                      <CardDescription className="text-sm mt-1">
+                      <CardDescription className="text-sm mt-1 text-muted-foreground">
                         {project.subtitle}
                       </CardDescription>
                     </div>
@@ -135,9 +136,10 @@ const ProjectsSection = () => {
                   <p className="text-muted-foreground">{project.description}</p>
                 </CardContent>
                 <CardFooter>
+                   {/* Apply Literal AI styles to the link styled as button */}
                    <a
                      href={project.ctaLink}
-                     className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-full bg-lit-pink text-white hover:opacity-90 h-10 px-4 py-2" // Mimic Button styles directly on <a>
+                     className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-full bg-lit-pink text-white hover:opacity-90 h-10 px-4 py-2" // Mimic Button styles + lit-pink
                    >
                      {project.ctaText}
                    </a>
@@ -146,7 +148,7 @@ const ProjectsSection = () => {
             </motion.div>
           ))}
         </motion.div>
-        */}
+
       </div>
     </section>
   );
