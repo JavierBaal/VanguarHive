@@ -30,6 +30,7 @@ const KairosCreativeLandingPage = () => {
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login'); // 'login' or 'register'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // Nuevo estado para confirmar contraseña
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [authMessage, setAuthMessage] = useState<string | null>(null); // For success/error messages in modal
 
@@ -106,8 +107,15 @@ const KairosCreativeLandingPage = () => {
 
   const handleAuthSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    setAuthMessage(null); // Clear previous messages
+
+    // Validación de contraseña para registro
+    if (authMode === 'register' && password !== confirmPassword) {
+      setAuthMessage("Passwords do not match.");
+      return; // Detener envío
+    }
+
     setIsAuthLoading(true);
-    setAuthMessage(null);
     const url = authMode === 'register' ? registerUrl : loginUrl;
     const isLogin = authMode === 'login';
 
@@ -131,7 +139,7 @@ const KairosCreativeLandingPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password }), // Solo enviar email y password
             });
         }
 
@@ -165,7 +173,11 @@ const KairosCreativeLandingPage = () => {
           } else {
             console.log("Registration successful:", data.message);
             setAuthMessage(data.message || "Registration successful! Please log in.");
-            setAuthMode('login');
+            setAuthMode('login'); // Switch to login mode after successful registration
+            // Limpiar campos después de registro exitoso
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
           }
       }
 
@@ -238,6 +250,23 @@ const KairosCreativeLandingPage = () => {
                      autoComplete={authMode === 'login' ? 'current-password' : 'new-password'}
                    />
                  </div>
+                 {/* Campo Confirmar Contraseña (solo para registro) */}
+                 {authMode === 'register' && (
+                   <div className="grid grid-cols-4 items-center gap-4">
+                     <Label htmlFor="confirm-password-auth" className="text-right">
+                       Confirm
+                     </Label>
+                     <Input
+                       id="confirm-password-auth"
+                       type="password"
+                       value={confirmPassword}
+                       onChange={(e) => setConfirmPassword(e.target.value)}
+                       required
+                       className="col-span-3 bg-input border-input-border"
+                       autoComplete="new-password"
+                     />
+                   </div>
+                 )}
                  {authMessage && (
                    <p className={`text-sm ${authMessage.includes('successful') ? 'text-green-500' : 'text-red-500'}`}>
                      {authMessage}
@@ -248,12 +277,13 @@ const KairosCreativeLandingPage = () => {
                  <Button
                    type="button"
                    variant="link"
-                   className="text-lit-pink hover:text-opacity-80" // Añadida clase de color rosa
+                   className="text-lit-pink hover:text-opacity-80" // Clase de color rosa añadida
                    onClick={() => {
                      setAuthMode(authMode === 'login' ? 'register' : 'login');
                      setAuthMessage(null); // Clear message on mode switch
                      setEmail(''); // Clear fields on mode switch
                      setPassword('');
+                     setConfirmPassword(''); // Clear confirm password field
                    }}
                  >
                    {authMode === 'login' ? 'Need an account? Register' : 'Already have an account? Login'}
