@@ -248,6 +248,7 @@ const KairosCreativeLandingPage = () => {
                  <Button
                    type="button"
                    variant="link"
+                   className="text-lit-pink hover:text-opacity-80" // Añadida clase de color rosa
                    onClick={() => {
                      setAuthMode(authMode === 'login' ? 'register' : 'login');
                      setAuthMessage(null); // Clear message on mode switch
