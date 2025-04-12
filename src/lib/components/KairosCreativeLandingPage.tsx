@@ -8,10 +8,13 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from "@/lib/components/ui/card";
 import { Separator } from "@/lib/components/ui/separator";
 import { Button } from "@/lib/components/ui/button";
-import { Lock, DoorOpen, Gift, Clock } from "lucide-react"; // Added Clock icon
+import { Lock, DoorOpen, Gift, Clock, Loader2 } from "lucide-react"; // Added Clock and Loader2 icons
+import { useState } from "react"; // Import useState for loading state
 
 const KairosCreativeLandingPage = () => {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState<string | null>(null); // State to track loading for specific button/price
+  const [error, setError] = useState<string | null>(null); // State for error messages
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -20,8 +23,50 @@ const KairosCreativeLandingPage = () => {
   // Static calculator display - Uses the corrected translation key
   const staticCalculatorDisplay = t('kairosCreative.v2.hero.calculator.result');
 
-  // Actual Patreon link
-  const patreonLink = "https://www.patreon.com/kairoscreative/";
+  // Price ID for the "Newbie Tester" (Free Tier)
+  const newbiePriceId = "price_1RCuhgRfXEI83hj8vTf7ZLN3";
+  // URL of our backend endpoint to create the checkout session
+  // TODO: Get this from environment variables ideally
+  const createCheckoutSessionUrl = "https://kairos-creative-webhook.onrender.com/create-checkout-session"; // Replace with your actual deployed webhook server URL
+
+  const handleCheckout = async (priceId: string) => {
+    setIsLoading(priceId); // Set loading state for this price ID
+    setError(null); // Clear previous errors
+    console.log(`Initiating checkout for price ID: ${priceId}`);
+
+    try {
+      // We don't have user context here yet, so we don't pass user_id or email
+      const response = await fetch(createCheckoutSessionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ price_id: priceId }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+      }
+
+      const session = await response.json();
+      console.log("Checkout session created:", session);
+
+      if (session.checkout_url) {
+        // Redirect the user to Stripe Checkout
+        window.location.href = session.checkout_url;
+      } else {
+        throw new Error("Checkout URL not found in response.");
+      }
+
+    } catch (error) {
+      console.error("Failed to create checkout session:", error);
+      setError(error instanceof Error ? error.message : "An unexpected error occurred. Please try again.");
+      setIsLoading(null); // Clear loading state on error
+    }
+    // No need to clear loading state on success, as we redirect
+  };
+
 
   return (
     // Base dark background and light text
@@ -74,9 +119,13 @@ const KairosCreativeLandingPage = () => {
               {/* Style button with lit-pink */}
               <Button
                 size="lg"
-                className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-                onClick={() => window.open(patreonLink, '_blank')}
+                className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink disabled:opacity-50"
+                onClick={() => handleCheckout(newbiePriceId)} // Call handleCheckout with newbie price ID
+                disabled={isLoading === newbiePriceId} // Disable button while loading this specific checkout
               >
+                {isLoading === newbiePriceId ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : null}
                 {t('kairosCreative.v2.hero.mainCta')}
               </Button>
                {/* Use lit-pink text color */}
@@ -203,9 +252,13 @@ const KairosCreativeLandingPage = () => {
            </p>
            <Button
              size="lg"
-             className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-             onClick={() => window.open(patreonLink, '_blank')}
+             className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink disabled:opacity-50"
+             onClick={() => handleCheckout(newbiePriceId)} // Call handleCheckout with newbie price ID
+             disabled={isLoading === newbiePriceId} // Disable button while loading this specific checkout
            >
+             {isLoading === newbiePriceId ? (
+               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+             ) : null}
              {t('kairosCreative.v2.exclusivity.mainCta')}
            </Button>
            <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
@@ -228,15 +281,30 @@ const KairosCreativeLandingPage = () => {
            <div className="flex justify-center">
              <Button
                size="lg"
-               className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-               onClick={() => window.open(patreonLink, '_blank')}
+               className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink disabled:opacity-50"
+               onClick={() => handleCheckout(newbiePriceId)} // Call handleCheckout with newbie price ID
+               disabled={isLoading === newbiePriceId} // Disable button while loading this specific checkout
              >
+               {isLoading === newbiePriceId ? (
+                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+               ) : null}
                {t('kairosCreative.v2.postCta.combinedCta')}
              </Button>
            </div>
         </motion.section>
 
         {/* Section 8: Bonus - REMOVED */}
+
+        {/* Display Error Message */}
+        {error && (
+          <motion.div
+            className="mt-4 p-4 bg-red-900 border border-red-700 text-red-100 rounded-md text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <p>Error: {error}</p>
+          </motion.div>
+        )}
 
       </div>
 
