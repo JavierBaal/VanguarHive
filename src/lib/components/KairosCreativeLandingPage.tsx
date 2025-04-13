@@ -59,7 +59,7 @@ const KairosCreativeLandingPage = () => {
     console.log(`Initiating checkout for price ID: ${priceId}`);
 
     // --- ASOCIAR USUARIO LOGUEADO (SI EXISTE) ---
-    const token = localStorage.getItem('sessionToken');
+    const token = localStorage.getItem('sessionToken'); // NOTE: Still using sessionToken here, might need update if login uses jwtToken
     let userIdInternal: string | null = null; // Placeholder for Supabase user ID (UUID)
     let userEmailForCheckout: string | null = null; // Placeholder for user email
 
@@ -164,25 +164,42 @@ const KairosCreativeLandingPage = () => {
       } else {
           // Petición OK
           if (isLogin) {
-            console.log("Login successful, token received:", data.access_token); // Log 1 (Existente)
-            // --- NUEVO LOGGING ---
-            console.log("Attempting to set localStorage item 'jwtToken'...");
-            if (data && data.access_token) {
-                 console.log("Token value to be set:", data.access_token.substring(0, 20) + "..."); // Mostrar inicio del token
-                 localStorage.setItem('jwtToken', data.access_token); // Use 'jwtToken' key
-                 console.log("localStorage.setItem executed. Verifying item...");
-                 // Verificar inmediatamente si se guardó
-                 const savedToken = localStorage.getItem('jwtToken');
-                 console.log(`Verification: localStorage.getItem('jwtToken') returned: ${savedToken ? savedToken.substring(0, 20) + '...' : 'null'}`);
+            console.log("LOGIN HANDLER: Entered isLogin block."); // Log entrada
+            console.log("LOGIN HANDLER: Response data received:", data); // Log data completa
+
+            // Verificar existencia y tipo de token
+            if (data && typeof data.access_token === 'string' && data.access_token.length > 0) {
+              const tokenToSave = data.access_token;
+              console.log("LOGIN HANDLER: Valid access_token found:", tokenToSave.substring(0, 20) + "...");
+
+              try {
+                console.log("LOGIN HANDLER: Attempting localStorage.setItem('jwtToken', ...)");
+                localStorage.setItem('jwtToken', tokenToSave); // Use 'jwtToken' key
+                console.log("LOGIN HANDLER: localStorage.setItem executed.");
+
+                // Verificar inmediatamente
+                const savedToken = localStorage.getItem('jwtToken');
+                if (savedToken === tokenToSave) {
+                  console.log("LOGIN HANDLER: Verification successful! Token saved in localStorage.");
+                  setAuthMessage("Login successful! Redirecting...");
+                  // Redirigir SOLO si se guardó correctamente
+                  setTimeout(() => {
+                    console.log("LOGIN HANDLER: Redirecting to Chainlit app...");
+                    window.location.href = chainlitAppUrl;
+                  }, 1500);
+                } else {
+                  console.error("LOGIN HANDLER: Verification FAILED! Token not found or incorrect in localStorage immediately after setItem.");
+                  setAuthMessage("Login failed: Could not save session. Please try again.");
+                }
+              } catch (storageError) {
+                console.error("LOGIN HANDLER: Error during localStorage.setItem:", storageError);
+                setAuthMessage("Login failed: Could not save session due to storage error.");
+              }
             } else {
-                 console.error("Error: data or data.access_token is missing or invalid. Cannot set localStorage.");
+              console.error("LOGIN HANDLER: Error: data.access_token is missing, invalid, or empty.");
+              setAuthMessage("Login failed: Invalid token received from server.");
             }
-            // --- FIN NUEVO LOGGING ---
-            setAuthMessage("Login successful! Redirecting...");
-            setTimeout(() => {
-                 window.location.href = chainlitAppUrl; // Redirect to Chainlit
-            }, 1500);
-          } else {
+          } else { // Bloque de Registro (sin cambios)
             console.log("Registration successful:", data.message);
             setAuthMessage(data.message || "Registration successful! Please log in.");
             setAuthMode('login'); // Switch to login mode after successful registration
