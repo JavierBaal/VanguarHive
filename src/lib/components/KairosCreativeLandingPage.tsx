@@ -163,6 +163,7 @@ const KairosCreativeLandingPage = () => {
         }
       } else {
           // Petición OK
+          console.log(`LOGIN HANDLER: Response OK. Checking authMode: ${authMode}, isLogin: ${isLogin}`); // <-- NUEVO LOG AQUÍ
           if (isLogin) {
             console.log("LOGIN HANDLER: Entered isLogin block."); // Log entrada
             console.log("LOGIN HANDLER: Response data received:", data); // Log data completa
