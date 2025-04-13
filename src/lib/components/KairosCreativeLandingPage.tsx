@@ -170,10 +170,13 @@ const KairosCreativeLandingPage = () => {
       } else {
           // Petición OK
           console.log("LOGIN DEBUG: Response OK."); // Log 7b
-          console.log(`LOGIN DEBUG: Checking authMode: ${authMode}, isLogin: ${isLogin}`); // Log 8
-          if (isLogin) {
-            console.log("LOGIN DEBUG: Entered isLogin block."); // Log 9
-            // --- REINTRODUCIR LÓGICA localStorage ---
+          // console.log(`LOGIN DEBUG: Checking authMode: ${authMode}, isLogin: ${isLogin}`); // Log 8 - Ya no es necesario chequear isLogin aquí
+          // Si la respuesta es OK y estábamos en modo login (lo cual debe ser cierto si llegamos aquí tras llamar a /login), proceder a guardar token.
+          // La variable 'isLogin' se definió al inicio de la función handleAuthSubmit.
+          // Si response.ok es true después de llamar a /login, asumimos que isLogin era true.
+          if (url === loginUrl) { // Verificar explícitamente si la URL era la de login
+            console.log("LOGIN DEBUG: Processing successful login response."); // Log 9
+            // --- LÓGICA localStorage ---
             console.log("LOGIN DEBUG: Login successful, token received:", data.access_token); // Log 10
             console.log("LOGIN DEBUG: Attempting to set localStorage item 'jwtToken'..."); // Log 11
             if (data && typeof data.access_token === 'string' && data.access_token.length > 0) {
@@ -205,7 +208,7 @@ const KairosCreativeLandingPage = () => {
               setAuthMessage("Login failed: Invalid token received from server.");
             }
             // --- FIN LÓGICA localStorage ---
-          } else { // Bloque de Registro
+          } else if (url === registerUrl) { // Bloque de Registro
             console.log("Registration successful:", data.message);
             setAuthMessage(data.message || "Registration successful! Please log in.");
             setAuthMode('login'); // Switch to login mode after successful registration
