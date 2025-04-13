@@ -165,7 +165,7 @@ const KairosCreativeLandingPage = () => {
           // Petición OK
           if (isLogin) {
             console.log("Login successful, token received:", data.access_token);
-            localStorage.setItem('sessionToken', data.access_token); // Save token
+            localStorage.setItem('jwtToken', data.access_token); // Use 'jwtToken' key
             setAuthMessage("Login successful! Redirecting...");
             setTimeout(() => {
                  window.location.href = chainlitAppUrl; // Redirect to Chainlit
