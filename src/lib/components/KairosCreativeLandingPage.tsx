@@ -26,13 +26,6 @@ const KairosCreativeLandingPage = () => {
   const [isCheckoutLoading, setIsCheckoutLoading] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   // Auth Modal states
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login'); // 'login' or 'register'
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // Nuevo estado para confirmar contraseña
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
-  const [authMessage, setAuthMessage] = useState<string | null>(null); // For success/error messages in modal
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -105,112 +98,6 @@ const KairosCreativeLandingPage = () => {
     }
   };
 
-  const handleAuthSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    setAuthMessage(null); // Clear previous messages
-
-    // Validación de contraseña para registro
-    if (authMode === 'register' && password !== confirmPassword) {
-      setAuthMessage("Passwords do not match.");
-      return; // Detener envío
-    }
-
-    setIsAuthLoading(true);
-    const url = authMode === 'register' ? registerUrl : loginUrl;
-    const isLogin = authMode === 'login';
-
-    console.log(`LOGIN DEBUG: Attempting ${authMode} for ${email}...`); // Log 1
-
-    try {
-        console.log("LOGIN DEBUG: Inside try block."); // Log 2
-        let response: Response;
-        if (isLogin) {
-            // FastAPI OAuth2PasswordRequestForm expects form data
-            const formData = new URLSearchParams();
-            formData.append('username', email); // Use email as username
-            formData.append('password', password);
-            response = await fetch(url, {
-                method: 'POST',
-                body: formData,
-            });
-        } else {
-            // Register uses JSON
-            response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }), // Solo enviar email y password
-            });
-        }
-        console.log("LOGIN DEBUG: Fetch executed. Response status:", response.status); // Log 3
-
-      // Intentar parsear JSON incluso si la respuesta no es OK (para obtener 'detail')
-      let data;
-      try {
-          console.log("LOGIN DEBUG: Attempting response.json()..."); // Log 4
-          data = await response.json();
-          console.log("LOGIN DEBUG: response.json() successful. Data:", data); // Log 5
-      } catch (jsonError) {
-          console.error("LOGIN DEBUG: Error parsing JSON:", jsonError); // Log 6
-          // Si no es JSON, usar el texto de estado
-          throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
-      }
-
-
-      if (!response.ok) {
-        console.log("LOGIN DEBUG: Response not OK.", response.status); // Log 7a
-        const errorDetail = data.detail || `HTTP error! status: ${response.status}`;
-        if (response.status === 400 && typeof errorDetail === 'string' && errorDetail.includes("Email already registered")) {
-             setAuthMessage("This email is already registered. Please log in instead.");
-             setAuthMode('login');
-        } else {
-             throw new Error(errorDetail);
-        }
-      } else {
-          // Petición OK
-          console.log("LOGIN DEBUG: Response OK."); // Log 7b
-          // console.log(`LOGIN DEBUG: Checking authMode: ${authMode}, isLogin: ${isLogin}`); // Log 8 - Ya no es necesario chequear isLogin aquí
-          // Si la respuesta es OK y estábamos en modo login (lo cual debe ser cierto si llegamos aquí tras llamar a /login), proceder a guardar token.
-          // La variable 'isLogin' se definió al inicio de la función handleAuthSubmit.
-          // Si response.ok es true después de llamar a /login, asumimos que isLogin era true.
-          if (url === loginUrl) { // Verificar explícitamente si la URL era la de login
-            console.log("LOGIN DEBUG: Processing successful login response.");
-            // --- NUEVA LÓGICA: Pasar token en URL ---
-            if (data && typeof data.access_token === 'string' && data.access_token.length > 0) {
-              const token = data.access_token;
-              console.log("LOGIN DEBUG: Token received, preparing redirect URL with token...");
-              // Construir la URL de Chainlit con el token como parámetro URL codificado
-              const redirectUrl = `${chainlitAppUrl}?auth_token=${encodeURIComponent(token)}`;
-              console.log("LOGIN DEBUG: Redirecting to:", redirectUrl.substring(0, 100) + "..."); // Log URL (truncada)
-              setAuthMessage("Login successful! Redirecting...");
-              // Redirigir después de un pequeño delay
-              setTimeout(() => {
-                window.location.href = redirectUrl;
-              }, 500); // Reducir delay
-            } else {
-              console.error("LOGIN DEBUG: Error: data.access_token is missing, invalid, or empty.");
-              setAuthMessage("Login failed: Invalid token received from server.");
-            }
-            // --- FIN NUEVA LÓGICA ---
-          } else if (url === registerUrl) { // Bloque de Registro
-            console.log("Registration successful:", data.message);
-            setAuthMessage(data.message || "Registration successful! Please log in.");
-            setAuthMode('login'); // Switch to login mode after successful registration
-            // Limpiar campos después de registro exitoso
-            setEmail('');
-            setPassword('');
-            setConfirmPassword('');
-          }
-      }
-
-    } catch (error) {
-      console.error(`Failed to ${authMode}:`, error);
-      setAuthMessage(error instanceof Error ? error.message : `An unexpected error occurred during ${authMode}.`);
-    } finally {
-      setIsAuthLoading(false);
-    }
-  };
 
 
   return (
@@ -228,101 +115,14 @@ const KairosCreativeLandingPage = () => {
 
        {/* Header with Login/Register Button */}
        <header className="absolute top-0 left-0 right-0 z-20 p-4 flex justify-end container mx-auto">
-         <Dialog open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen}>
-           <DialogTrigger asChild>
-             <Button variant="outline" className="text-white border-lit-pink hover:bg-lit-pink hover:text-black">
-               Login / Register
-             </Button>
-           </DialogTrigger>
-           <DialogContent className="sm:max-w-[425px] bg-card border-lit-border text-foreground">
-             <DialogHeader>
-               <DialogTitle>{authMode === 'login' ? 'Login' : 'Register'}</DialogTitle>
-               <DialogDescription>
-                 {authMode === 'login'
-                   ? "Enter your email and password to access your account."
-                   : "Create an account to start your free trial."}
-               </DialogDescription>
-             </DialogHeader>
-             <form onSubmit={handleAuthSubmit}>
-               <div className="grid gap-4 py-4">
-                 <div className="grid grid-cols-4 items-center gap-4">
-                   <Label htmlFor="email-auth" className="text-right">
-                     Email
-                   </Label>
-                   <Input
-                     id="email-auth"
-                     type="email"
-                     value={email}
-                     onChange={(e) => setEmail(e.target.value)}
-                     required
-                     className="col-span-3 bg-input border-input-border"
-                     autoComplete="email"
-                   />
-                 </div>
-                 <div className="grid grid-cols-4 items-center gap-4">
-                   <Label htmlFor="password-auth" className="text-right">
-                     Password
-                   </Label>
-                   <Input
-                     id="password-auth"
-                     type="password"
-                     value={password}
-                     onChange={(e) => setPassword(e.target.value)}
-                     required
-                     className="col-span-3 bg-input border-input-border"
-                     autoComplete={authMode === 'login' ? 'current-password' : 'new-password'}
-                   />
-                 </div>
-                 {/* Campo Confirmar Contraseña (solo para registro) */}
-                 {authMode === 'register' && (
-                   <div className="grid grid-cols-4 items-center gap-4">
-                     <Label htmlFor="confirm-password-auth" className="text-right">
-                       Confirm
-                     </Label>
-                     <Input
-                       id="confirm-password-auth"
-                       type="password"
-                       value={confirmPassword}
-                       onChange={(e) => setConfirmPassword(e.target.value)}
-                       required
-                       className="col-span-3 bg-input border-input-border"
-                       autoComplete="new-password"
-                     />
-                   </div>
-                 )}
-                 {authMessage && (
-                   <p className={`text-sm ${authMessage.includes('successful') ? 'text-green-500' : 'text-red-500'}`}>
-                     {authMessage}
-                   </p>
-                 )}
-               </div>
-               <DialogFooter className="sm:justify-between">
-                 <Button
-                   type="button"
-                   variant="link"
-                   className="text-lit-pink hover:text-opacity-80" // Clase de color rosa añadida
-                   onClick={() => {
-                     setAuthMode(authMode === 'login' ? 'register' : 'login');
-                     setAuthMessage(null); // Clear message on mode switch
-                     setEmail(''); // Clear fields on mode switch
-                     setPassword('');
-                     setConfirmPassword(''); // Clear confirm password field
-                   }}
-                 >
-                   {authMode === 'login' ? 'Need an account? Register' : 'Already have an account? Login'}
-                 </Button>
-                 <Button
-                   type="submit"
-                   disabled={isAuthLoading}
-                   className="bg-lit-pink hover:bg-opacity-80 text-white"
-                 >
-                   {isAuthLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : (authMode === 'login' ? <LogIn className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />)}
-                   {authMode === 'login' ? 'Login' : 'Register'}
-                 </Button>
-               </DialogFooter>
-             </form>
-           </DialogContent>
-         </Dialog>
+         {/* Botón simple que redirige a la app Chainlit */}
+         <Button
+           variant="outline"
+           className="text-white border-lit-pink hover:bg-lit-pink hover:text-black"
+           onClick={() => window.location.href = chainlitAppUrl}
+         >
+           Acceder / Registrarse
+         </Button>
        </header>
 
       {/* Section 1: Hero Section - Apply Literal AI Style Consistently */}
@@ -362,17 +162,14 @@ const KairosCreativeLandingPage = () => {
             <motion.div variants={fadeIn}>
               {/* Style button with lit-pink */}
               {/* El botón principal ahora abre el modal de registro/login en lugar de ir a checkout */}
-              <Dialog open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                    size="lg"
-                    className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-                  >
-                    {t('kairosCreative.v2.hero.mainCta')} {/* Ajustar texto si es necesario */}
-                  </Button>
-                </DialogTrigger>
-                 {/* El DialogContent se define en el header */}
-              </Dialog>
+                {/* Botón simple que redirige a la app Chainlit */}
+                <Button
+                  size="lg"
+                  className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+                  onClick={() => window.location.href = chainlitAppUrl}
+                >
+                  {t('kairosCreative.v2.hero.mainCta')}
+                </Button>
                {/* Use lit-pink text color */}
               <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
                  <Clock className="h-4 w-4 mr-1" />
@@ -497,17 +294,14 @@ const KairosCreativeLandingPage = () => {
              {t('kairosCreative.v2.exclusivity.counter')}
            </p>
            {/* Este botón ahora abre el modal */}
-           <Dialog open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen}>
-             <DialogTrigger asChild>
-               <Button
-                 size="lg"
-                 className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-               >
-                 {t('kairosCreative.v2.exclusivity.mainCta')}
-               </Button>
-             </DialogTrigger>
-             {/* El DialogContent se define en el header */}
-           </Dialog>
+           {/* Botón simple que redirige a la app Chainlit */}
+           <Button
+             size="lg"
+             className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+             onClick={() => window.location.href = chainlitAppUrl}
+           >
+             {t('kairosCreative.v2.exclusivity.mainCta')}
+           </Button>
            <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
               <Clock className="h-4 w-4 mr-1" />
               {t('kairosCreative.v2.exclusivity.subCta')}
@@ -526,17 +320,14 @@ const KairosCreativeLandingPage = () => {
              {t('kairosCreative.v2.postCta.text')}
            </p>
            <div className="flex justify-center">
-             <Dialog open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen}>
-               <DialogTrigger asChild>
-                 <Button
-                   size="lg"
-                   className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-                 >
-                   {t('kairosCreative.v2.postCta.combinedCta')}
-                 </Button>
-               </DialogTrigger>
-               {/* El DialogContent se define en el header */}
-             </Dialog>
+             {/* Botón simple que redirige a la app Chainlit */}
+             <Button
+               size="lg"
+               className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+               onClick={() => window.location.href = chainlitAppUrl}
+             >
+               {t('kairosCreative.v2.postCta.combinedCta')}
+             </Button>
            </div>
         </motion.section>
 
