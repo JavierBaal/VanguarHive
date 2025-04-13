@@ -119,9 +119,10 @@ const KairosCreativeLandingPage = () => {
     const url = authMode === 'register' ? registerUrl : loginUrl;
     const isLogin = authMode === 'login';
 
-    console.log(`Attempting ${authMode} for ${email}...`);
+    console.log(`LOGIN DEBUG: Attempting ${authMode} for ${email}...`); // Log 1
 
     try {
+        console.log("LOGIN DEBUG: Inside try block."); // Log 2
         let response: Response;
         if (isLogin) {
             // FastAPI OAuth2PasswordRequestForm expects form data
@@ -142,18 +143,23 @@ const KairosCreativeLandingPage = () => {
                 body: JSON.stringify({ email, password }), // Solo enviar email y password
             });
         }
+        console.log("LOGIN DEBUG: Fetch executed. Response status:", response.status); // Log 3
 
       // Intentar parsear JSON incluso si la respuesta no es OK (para obtener 'detail')
       let data;
       try {
+          console.log("LOGIN DEBUG: Attempting response.json()..."); // Log 4
           data = await response.json();
+          console.log("LOGIN DEBUG: response.json() successful. Data:", data); // Log 5
       } catch (jsonError) {
+          console.error("LOGIN DEBUG: Error parsing JSON:", jsonError); // Log 6
           // Si no es JSON, usar el texto de estado
           throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
       }
 
 
       if (!response.ok) {
+        console.log("LOGIN DEBUG: Response not OK.", response.status); // Log 7a
         const errorDetail = data.detail || `HTTP error! status: ${response.status}`;
         if (response.status === 400 && typeof errorDetail === 'string' && errorDetail.includes("Email already registered")) {
              setAuthMessage("This email is already registered. Please log in instead.");
@@ -163,17 +169,42 @@ const KairosCreativeLandingPage = () => {
         }
       } else {
           // Petición OK
-          console.log(`LOGIN HANDLER: Response OK. Checking authMode: ${authMode}, isLogin: ${isLogin}`); // Mantener este log
+          console.log("LOGIN DEBUG: Response OK."); // Log 7b
+          console.log(`LOGIN DEBUG: Checking authMode: ${authMode}, isLogin: ${isLogin}`); // Log 8
           if (isLogin) {
-            // Ya no necesitamos verificar data.access_token ni guardar en localStorage
-            // La cookie HttpOnly se establece en el backend
-            console.log("LOGIN HANDLER: Login request successful (200 OK). Cookie should be set by backend.");
-            setAuthMessage("Login successful! Redirecting...");
-            // Redirigir directamente
-            setTimeout(() => {
-              console.log("LOGIN HANDLER: Redirecting to Chainlit app...");
-              window.location.href = chainlitAppUrl;
-            }, 1500); // Mantener un pequeño delay para que el usuario vea el mensaje
+            console.log("LOGIN DEBUG: Entered isLogin block."); // Log 9
+            // --- REINTRODUCIR LÓGICA localStorage ---
+            console.log("LOGIN DEBUG: Login successful, token received:", data.access_token); // Log 10
+            console.log("LOGIN DEBUG: Attempting to set localStorage item 'jwtToken'..."); // Log 11
+            if (data && typeof data.access_token === 'string' && data.access_token.length > 0) {
+              const tokenToSave = data.access_token;
+              console.log("LOGIN DEBUG: Token value to be set:", tokenToSave.substring(0, 20) + "..."); // Log 12
+              try {
+                localStorage.setItem('jwtToken', tokenToSave); // Use 'jwtToken' key
+                console.log("LOGIN DEBUG: localStorage.setItem executed."); // Log 13
+                // Verificar inmediatamente
+                const savedToken = localStorage.getItem('jwtToken');
+                if (savedToken === tokenToSave) {
+                  console.log("LOGIN DEBUG: Verification successful! Token saved in localStorage."); // Log 14a
+                  setAuthMessage("Login successful! Redirecting...");
+                  // Redirigir SOLO si se guardó correctamente
+                  setTimeout(() => {
+                    console.log("LOGIN DEBUG: Redirecting to Chainlit app..."); // Log 15
+                    window.location.href = chainlitAppUrl;
+                  }, 1500);
+                } else {
+                  console.error("LOGIN DEBUG: Verification FAILED! Token not found or incorrect in localStorage immediately after setItem."); // Log 14b
+                  setAuthMessage("Login failed: Could not save session. Please try again.");
+                }
+              } catch (storageError) {
+                console.error("LOGIN DEBUG: Error during localStorage.setItem:", storageError); // Log 16
+                setAuthMessage("Login failed: Could not save session due to storage error.");
+              }
+            } else {
+              console.error("LOGIN DEBUG: Error: data.access_token is missing, invalid, or empty."); // Log 17
+              setAuthMessage("Login failed: Invalid token received from server.");
+            }
+            // --- FIN LÓGICA localStorage ---
           } else { // Bloque de Registro
             console.log("Registration successful:", data.message);
             setAuthMessage(data.message || "Registration successful! Please log in.");
