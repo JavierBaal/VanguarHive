@@ -163,44 +163,18 @@ const KairosCreativeLandingPage = () => {
         }
       } else {
           // Petición OK
-          console.log(`LOGIN HANDLER: Response OK. Checking authMode: ${authMode}, isLogin: ${isLogin}`); // <-- NUEVO LOG AQUÍ
+          console.log(`LOGIN HANDLER: Response OK. Checking authMode: ${authMode}, isLogin: ${isLogin}`); // Mantener este log
           if (isLogin) {
-            console.log("LOGIN HANDLER: Entered isLogin block."); // Log entrada
-            console.log("LOGIN HANDLER: Response data received:", data); // Log data completa
-
-            // Verificar existencia y tipo de token
-            if (data && typeof data.access_token === 'string' && data.access_token.length > 0) {
-              const tokenToSave = data.access_token;
-              console.log("LOGIN HANDLER: Valid access_token found:", tokenToSave.substring(0, 20) + "...");
-
-              try {
-                console.log("LOGIN HANDLER: Attempting localStorage.setItem('jwtToken', ...)");
-                localStorage.setItem('jwtToken', tokenToSave); // Use 'jwtToken' key
-                console.log("LOGIN HANDLER: localStorage.setItem executed.");
-
-                // Verificar inmediatamente
-                const savedToken = localStorage.getItem('jwtToken');
-                if (savedToken === tokenToSave) {
-                  console.log("LOGIN HANDLER: Verification successful! Token saved in localStorage.");
-                  setAuthMessage("Login successful! Redirecting...");
-                  // Redirigir SOLO si se guardó correctamente
-                  setTimeout(() => {
-                    console.log("LOGIN HANDLER: Redirecting to Chainlit app...");
-                    window.location.href = chainlitAppUrl;
-                  }, 1500);
-                } else {
-                  console.error("LOGIN HANDLER: Verification FAILED! Token not found or incorrect in localStorage immediately after setItem.");
-                  setAuthMessage("Login failed: Could not save session. Please try again.");
-                }
-              } catch (storageError) {
-                console.error("LOGIN HANDLER: Error during localStorage.setItem:", storageError);
-                setAuthMessage("Login failed: Could not save session due to storage error.");
-              }
-            } else {
-              console.error("LOGIN HANDLER: Error: data.access_token is missing, invalid, or empty.");
-              setAuthMessage("Login failed: Invalid token received from server.");
-            }
-          } else { // Bloque de Registro (sin cambios)
+            // Ya no necesitamos verificar data.access_token ni guardar en localStorage
+            // La cookie HttpOnly se establece en el backend
+            console.log("LOGIN HANDLER: Login request successful (200 OK). Cookie should be set by backend.");
+            setAuthMessage("Login successful! Redirecting...");
+            // Redirigir directamente
+            setTimeout(() => {
+              console.log("LOGIN HANDLER: Redirecting to Chainlit app...");
+              window.location.href = chainlitAppUrl;
+            }, 1500); // Mantener un pequeño delay para que el usuario vea el mensaje
+          } else { // Bloque de Registro
             console.log("Registration successful:", data.message);
             setAuthMessage(data.message || "Registration successful! Please log in.");
             setAuthMode('login'); // Switch to login mode after successful registration
