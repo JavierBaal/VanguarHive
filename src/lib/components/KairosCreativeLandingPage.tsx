@@ -175,39 +175,24 @@ const KairosCreativeLandingPage = () => {
           // La variable 'isLogin' se definió al inicio de la función handleAuthSubmit.
           // Si response.ok es true después de llamar a /login, asumimos que isLogin era true.
           if (url === loginUrl) { // Verificar explícitamente si la URL era la de login
-            console.log("LOGIN DEBUG: Processing successful login response."); // Log 9
-            // --- LÓGICA localStorage ---
-            console.log("LOGIN DEBUG: Login successful, token received:", data.access_token); // Log 10
-            console.log("LOGIN DEBUG: Attempting to set localStorage item 'jwtToken'..."); // Log 11
+            console.log("LOGIN DEBUG: Processing successful login response.");
+            // --- NUEVA LÓGICA: Pasar token en URL ---
             if (data && typeof data.access_token === 'string' && data.access_token.length > 0) {
-              const tokenToSave = data.access_token;
-              console.log("LOGIN DEBUG: Token value to be set:", tokenToSave.substring(0, 20) + "..."); // Log 12
-              try {
-                localStorage.setItem('jwtToken', tokenToSave); // Use 'jwtToken' key
-                console.log("LOGIN DEBUG: localStorage.setItem executed."); // Log 13
-                // Verificar inmediatamente
-                const savedToken = localStorage.getItem('jwtToken');
-                if (savedToken === tokenToSave) {
-                  console.log("LOGIN DEBUG: Verification successful! Token saved in localStorage."); // Log 14a
-                  setAuthMessage("Login successful! Redirecting...");
-                  // Redirigir SOLO si se guardó correctamente
-                  setTimeout(() => {
-                    console.log("LOGIN DEBUG: Redirecting to Chainlit app..."); // Log 15
-                    window.location.href = chainlitAppUrl;
-                  }, 1500);
-                } else {
-                  console.error("LOGIN DEBUG: Verification FAILED! Token not found or incorrect in localStorage immediately after setItem."); // Log 14b
-                  setAuthMessage("Login failed: Could not save session. Please try again.");
-                }
-              } catch (storageError) {
-                console.error("LOGIN DEBUG: Error during localStorage.setItem:", storageError); // Log 16
-                setAuthMessage("Login failed: Could not save session due to storage error.");
-              }
+              const token = data.access_token;
+              console.log("LOGIN DEBUG: Token received, preparing redirect URL with token...");
+              // Construir la URL de Chainlit con el token como parámetro URL codificado
+              const redirectUrl = `${chainlitAppUrl}?auth_token=${encodeURIComponent(token)}`;
+              console.log("LOGIN DEBUG: Redirecting to:", redirectUrl.substring(0, 100) + "..."); // Log URL (truncada)
+              setAuthMessage("Login successful! Redirecting...");
+              // Redirigir después de un pequeño delay
+              setTimeout(() => {
+                window.location.href = redirectUrl;
+              }, 500); // Reducir delay
             } else {
-              console.error("LOGIN DEBUG: Error: data.access_token is missing, invalid, or empty."); // Log 17
+              console.error("LOGIN DEBUG: Error: data.access_token is missing, invalid, or empty.");
               setAuthMessage("Login failed: Invalid token received from server.");
             }
-            // --- FIN LÓGICA localStorage ---
+            // --- FIN NUEVA LÓGICA ---
           } else if (url === registerUrl) { // Bloque de Registro
             console.log("Registration successful:", data.message);
             setAuthMessage(data.message || "Registration successful! Please log in.");
