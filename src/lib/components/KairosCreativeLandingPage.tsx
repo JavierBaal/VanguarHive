@@ -164,8 +164,20 @@ const KairosCreativeLandingPage = () => {
       } else {
           // Petición OK
           if (isLogin) {
-            console.log("Login successful, token received:", data.access_token);
-            localStorage.setItem('jwtToken', data.access_token); // Use 'jwtToken' key
+            console.log("Login successful, token received:", data.access_token); // Log 1 (Existente)
+            // --- NUEVO LOGGING ---
+            console.log("Attempting to set localStorage item 'jwtToken'...");
+            if (data && data.access_token) {
+                 console.log("Token value to be set:", data.access_token.substring(0, 20) + "..."); // Mostrar inicio del token
+                 localStorage.setItem('jwtToken', data.access_token); // Use 'jwtToken' key
+                 console.log("localStorage.setItem executed. Verifying item...");
+                 // Verificar inmediatamente si se guardó
+                 const savedToken = localStorage.getItem('jwtToken');
+                 console.log(`Verification: localStorage.getItem('jwtToken') returned: ${savedToken ? savedToken.substring(0, 20) + '...' : 'null'}`);
+            } else {
+                 console.error("Error: data or data.access_token is missing or invalid. Cannot set localStorage.");
+            }
+            // --- FIN NUEVO LOGGING ---
             setAuthMessage("Login successful! Redirecting...");
             setTimeout(() => {
                  window.location.href = chainlitAppUrl; // Redirect to Chainlit
