@@ -106,15 +106,28 @@ const HeroSection = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <Button
-              onClick={currentOnCtaClick}
-              size="lg"
-              // Use vibrant background, ensure foreground contrast is good
-              className="bg-lit-pink hover:bg-lit-pink/80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl" // Added hover opacity
-            >
-              {currentCtaText}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            {/* Renderizar como enlace <a> si no se pasa onCtaClick (caso Home), si no, como botón normal */}
+            {onCtaClick ? (
+              <Button
+                onClick={onCtaClick} // Usar la función pasada directamente
+                size="lg"
+                className="bg-lit-pink hover:bg-lit-pink/80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                {currentCtaText}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            ) : (
+              <Button
+                asChild // Renderizar como el elemento hijo (<a>)
+                size="lg"
+                className="bg-lit-pink hover:bg-lit-pink/80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                <a href="#projects-section"> {/* Enlace a la sección de proyectos */}
+                  {currentCtaText}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </a>
+              </Button>
+            )}
           </motion.div>
 
           {/* Navigation links - adjust colors */}

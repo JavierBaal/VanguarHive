@@ -25,18 +25,17 @@ interface Project {
 const ProjectsSection = () => {
   const { t } = useTranslation(); // Initialize translation hook
 
-  // Define projects using translation keys
+  // Define projects using translation keys - Reordenado alfabéticamente
   const projects: Project[] = [
     {
-      title: t('projects.tehoria.title'),
-      subtitle: t('projects.tehoria.subtitle'),
-      description: t('projects.tehoria.description'),
-      status: t('projects.tehoria.status'),
-      ctaText: t('projects.tehoria.cta'),
-      ctaLink: "/tehoria",
+      title: t('projects.kairosCreative.title'),
+      subtitle: t('projects.kairosCreative.subtitle'),
+      description: t('projects.kairosCreative.description'),
+      status: t('projects.kairosCreative.status'),
+      ctaText: t('projects.kairosCreative.cta'),
+      ctaLink: "/kairos-creative",
       statusColor: "default",
     },
-    // Objeto KAIROS eliminado
     {
       title: t('projects.kairosJurista.title'),
       subtitle: t('projects.kairosJurista.subtitle'),
@@ -47,12 +46,12 @@ const ProjectsSection = () => {
       statusColor: "default",
     },
     {
-      title: t('projects.kairosCreative.title'),
-      subtitle: t('projects.kairosCreative.subtitle'),
-      description: t('projects.kairosCreative.description'),
-      status: t('projects.kairosCreative.status'),
-      ctaText: t('projects.kairosCreative.cta'),
-      ctaLink: "/kairos-creative",
+      title: t('projects.tehoria.title'),
+      subtitle: t('projects.tehoria.subtitle'),
+      description: t('projects.tehoria.description'),
+      status: t('projects.tehoria.status'),
+      ctaText: t('projects.tehoria.cta'),
+      ctaLink: "/tehoria",
       statusColor: "default",
     },
   ];
