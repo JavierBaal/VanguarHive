@@ -36,15 +36,7 @@ const ProjectsSection = () => {
       ctaLink: "/tehoria",
       statusColor: "default",
     },
-    {
-      title: t('projects.kairos.title'),
-      subtitle: t('projects.kairos.subtitle'),
-      description: t('projects.kairos.description'),
-      status: t('projects.kairos.status'),
-      ctaText: t('projects.kairos.cta'),
-      ctaLink: "#", // Keep link as is for now
-      statusColor: "secondary",
-    },
+    // Objeto KAIROS eliminado
     {
       title: t('projects.kairosJurista.title'),
       subtitle: t('projects.kairosJurista.subtitle'),
