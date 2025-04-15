@@ -42,6 +42,19 @@ const Footer = () => {
             >
               {t('footer.home')}
             </Link>
+            {/* Añadir enlaces a Términos y Privacidad */}
+            <Link
+              to="/terms"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t('terms.title')}
+            </Link>
+            <Link
+              to="/privacy"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t('privacy.title')}
+            </Link>
           </div>
         </div>
          {/* Use lit-border */}
