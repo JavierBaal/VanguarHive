@@ -346,5 +346,9 @@
   "privacy.changes.content": "Podemos actualizar nuestra Política de Privacidad de vez en cuando. Te notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página. Te informaremos por correo electrónico y/o mediante un aviso destacado en nuestro Servicio, antes de que el cambio entre en vigor y actualizaremos la \"fecha de entrada en vigor\" en la parte superior de esta Política de Privacidad. Se te aconseja revisar esta Política de Privacidad periódicamente para detectar cualquier cambio.",
   "privacy.contact.title": "10. Contáctanos",
   "privacy.contact.content": "Si tienes alguna pregunta sobre esta Política de Privacidad, contáctanos a través del formulario de contacto o el correo electrónico proporcionado en el sitio web.",
-  "privacy.lastUpdated": "Última actualización: 15 de abril de 2025"
+  "privacy.lastUpdated": "Última actualización: 15 de abril de 2025",
+
+  "cookieConsent.description": "Usamos cookies para mejorar tu experiencia. Al continuar visitando este sitio, aceptas nuestro uso de cookies.",
+  "cookieConsent.privacyPolicyLink": "Más información en nuestra Política de Privacidad",
+  "cookieConsent.acceptButton": "Aceptar"
 }
