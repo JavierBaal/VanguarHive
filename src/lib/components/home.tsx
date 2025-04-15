@@ -40,6 +40,7 @@ const Home = () => {
         viewport={{ once: true, amount: 0.2 }}
         variants={fadeIn}
         className="w-full"
+        id="projects-section" // Añadir ID para Proyectos
       >
         <ProjectsSection />
       </motion.div>
@@ -133,6 +134,7 @@ const Home = () => {
         viewport={{ once: true, amount: 0.2 }}
         variants={fadeIn}
         className="w-full"
+        id="contact-section" // Añadir ID para Contacto
       >
         <ContactSection />
       </motion.div>

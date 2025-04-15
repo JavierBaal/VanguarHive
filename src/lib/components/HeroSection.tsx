@@ -124,13 +124,15 @@ const HeroSection = ({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
           >
-            <a href="#projects" className="hover:text-foreground transition-colors">
+            {/* Modificar href para apuntar a los IDs de sección */}
+            <a href="#projects-section" className="hover:text-foreground transition-colors">
               {t('nav.projects')}
             </a>
             <Link to="/about" className="hover:text-foreground transition-colors">
               {t('nav.about')}
             </Link>
-            <a href="#contact" className="hover:text-foreground transition-colors">
+            {/* Modificar href para apuntar a los IDs de sección */}
+            <a href="#contact-section" className="hover:text-foreground transition-colors">
               {t('nav.contact')}
             </a>
             {/* Ensure LanguageSwitcher button style fits */}
