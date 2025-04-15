@@ -55,13 +55,6 @@ const Footer = () => {
             >
               {t('privacy.title')}
             </Link>
-            {/* Añadir enlace al Blog */}
-            <Link
-              to="/blog"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {t('blog.title')} {/* Usar clave de traducción del blog */}
-            </Link>
           </div>
         </div>
          {/* Use lit-border */}

@@ -351,16 +351,5 @@
 
   "cookieConsent.description": "We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.",
   "cookieConsent.privacyPolicyLink": "Learn more in our Privacy Policy",
-  "cookieConsent.acceptButton": "Accept",
-
-  "blog.title": "VanguardHive Blog",
-  "blog.meta.title": "Blog | VanguardHive - AI & Creativity Insights",
-  "blog.meta.description": "Latest news, articles, and insights on AI, creativity, and disruptive technology from VanguardHive.",
-  "blog.loading": "Loading posts...",
-  "blog.error": "Error loading posts",
-  "blog.noPosts": "No posts found yet. Check back soon!",
-  "blog.readMore": "Read More",
-  "blog.postNotFound": "Blog post not found.",
-  "blog.backToList": "Back to Blog List",
-  "blog.viewOriginal": "View Original Source"
+  "cookieConsent.acceptButton": "Accept"
 }
