@@ -11,7 +11,8 @@ export const PrivacyPage: React.FC = () => {
       <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
         <Card className="bg-card text-card-foreground border-border shadow-lg">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-primary">{t('privacy.title')}</CardTitle>
+            {/* Cambiar text-primary a text-foreground para el título principal */}
+            <CardTitle className="text-3xl font-bold text-foreground">{t('privacy.title')}</CardTitle>
           </CardHeader>
           {/* Usar text-foreground para mejor contraste en contenido */}
           <CardContent className="space-y-6 text-foreground">
