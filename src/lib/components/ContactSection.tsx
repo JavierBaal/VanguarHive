@@ -225,18 +225,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ className = "", default
                 </div>
 
                 <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <Mail className="h-6 w-6 text-lit-pink mt-1" />
-                    <div>
-                      <h3 className="font-medium text-card-foreground">{t('contact.info.email.label')}</h3>
-                      <a
-                        href="mailto:info@vanguardhive.com" // Keep email address static
-                        className="text-lit-pink hover:opacity-80"
-                      >
-                        info@vanguardhive.com
-                      </a>
-                    </div>
-                  </div>
+                  {/* Bloque de Email eliminado */}
 
                   <div className="flex items-start space-x-4">
                     <Linkedin className="h-6 w-6 text-lit-pink mt-1" />
@@ -249,6 +238,23 @@ const ContactSection: React.FC<ContactSectionProps> = ({ className = "", default
                         className="text-lit-pink hover:opacity-80"
                       >
                         {t('contact.info.linkedin.value')}
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Añadir bloque para X (Twitter) */}
+                  <div className="flex items-start space-x-4">
+                    {/* Usar un span para el icono 'X' ya que no hay icono directo en lucide */}
+                    <span className="h-6 w-6 text-lit-pink mt-1 flex items-center justify-center font-bold text-lg">X</span>
+                    <div>
+                      <h3 className="font-medium text-card-foreground">{t('contact.info.x.label')}</h3>
+                      <a
+                        href="https://x.com/javierbaal00" // URL de X
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-lit-pink hover:opacity-80"
+                      >
+                        @javierbaal00 {/* Nombre de usuario X */}
                       </a>
                     </div>
                   </div>
