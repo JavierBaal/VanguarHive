@@ -75,7 +75,8 @@ export const BlogPostDetailPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    // Añadir clase para aplicar tema claro específico
+    <div className="light-theme-override flex flex-col min-h-screen bg-background text-foreground">
       {/* Actualizar Helmet dinámicamente */}
       <Helmet>
         <title>{post ? `${post.title} | ${t('blog.title')}` : t('blog.title')}</title>

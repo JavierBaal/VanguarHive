@@ -7,6 +7,7 @@ import { Button } from '@/lib/components/ui/button';
 import { Badge } from '@/lib/components/ui/badge';
 import Footer from '@/lib/components/Footer';
 import { supabase } from '@/lib/supabaseClient'; // Importar cliente centralizado
+import { motion } from 'framer-motion'; // Importar motion para animaciones
 
 // Tipado para las entradas del blog (debería coincidir con la tabla)
 interface BlogPost {
@@ -64,7 +65,38 @@ export const BlogPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    // Eliminar clase light-theme-override para usar el tema oscuro global
+    // Añadir relative y overflow-hidden para contener los orbes animados
+    <div className="relative overflow-hidden flex flex-col min-h-screen bg-background text-foreground">
+       {/* Fondo animado copiado de HeroSection */}
+       <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-r from-lit-blue to-lit-pink opacity-10 blur-3xl -z-10 top-[-100px] left-[-100px]" // Ajustar opacidad/posición/z-index
+        animate={{
+          x: [0, 40, 0],
+          y: [0, -40, 0],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 15, // Duración ligeramente diferente
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+       <motion.div
+          className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-purple-600 to-cyan-400 opacity-5 blur-3xl -z-10 bottom-[-50px] right-[-50px]" // Ajustar opacidad/posición/z-index
+          animate={{
+            x: [0, -30, 0],
+            y: [0, 30, 0],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 18, // Duración ligeramente diferente
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      {/* Fin Fondo animado */}
+
       <Helmet>
         <title>{t('blog.meta.title')}</title>
         <meta name="description" content={t('blog.meta.description')} />
@@ -85,7 +117,8 @@ export const BlogPage: React.FC = () => {
         {!loading && !error && posts.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (
-              <Card key={post.id} className="flex flex-col bg-card border border-lit-border hover:border-lit-pink transition-colors duration-300 shadow-lg">
+              // Aplicar clase card-light-theme a cada tarjeta
+              <Card key={post.id} className="card-light-theme flex flex-col bg-card border border-border hover:border-primary transition-colors duration-300 shadow-lg">
                 {post.image_url && (
                   <img
                     src={post.image_url}
@@ -107,7 +140,8 @@ export const BlogPage: React.FC = () => {
                 </CardContent>
                 <CardFooter>
                   {/* Enlazar a la página de detalle del post usando el slug */}
-                  <Button asChild variant="link" className="p-0 text-lit-pink hover:text-lit-pink/80">
+                  {/* Usar text-primary definido en card-light-theme */}
+                  <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80">
                     <Link to={`/blog/${post.slug}`}>
                       {t('blog.readMore')}
                     </Link>

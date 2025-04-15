@@ -14,8 +14,11 @@
       --popover: 0 0% 11%; /* Dark card background */
       --popover-foreground: 222.2 84% 4.9%;
 
-      --primary: 222.2 47.4% 11.2%;
-      --primary-foreground: 210 40% 98%;
+      /* Cambiar --primary a un color claro/vibrante para el tema base oscuro */
+      /* Usaremos un HSL similar a lit-pink (ej: ~330 de hue, alta saturación/luminosidad) */
+      --primary: 330 90% 65%; /* Rosa/Magenta brillante */
+      /* --primary-foreground debería ser oscuro para contrastar con el rosa brillante */
+      --primary-foreground: 0 0% 7%; /* Texto oscuro para botones/elementos con fondo primary */
 
       --secondary: 210 40% 96.1%;
       --secondary-foreground: 222.2 47.4% 11.2%;
@@ -67,6 +70,54 @@
       --border: 0 0% 20%; /* #333333 */
       --input: 0 0% 20%; /* #333333 */
       --ring: 210 40% 98%; /* Ring color */
+    }
+  }
+
+  /* Definición para tema claro específico (usado en BlogPostDetailPage) */
+  @layer base {
+    .light-theme-override {
+      --background: 0 0% 96%; /* Gris muy claro en lugar de blanco puro */
+      --foreground: 222.2 84% 4.9%; /* Texto oscuro */
+      --card: 0 0% 100%; /* Tarjeta blanca */
+      --card-foreground: 222.2 84% 4.9%; /* Texto oscuro */
+      --popover: 0 0% 100%; /* Blanco */
+      --popover-foreground: 222.2 84% 4.9%; /* Texto oscuro */
+      --primary: 222.2 47.4% 11.2%; /* Azul oscuro primario */
+      --primary-foreground: 210 40% 98%; /* Texto claro sobre primario */
+      --secondary: 210 40% 96.1%; /* Gris claro */
+      --secondary-foreground: 222.2 47.4% 11.2%; /* Texto oscuro sobre secundario */
+      --muted: 210 40% 96.1%; /* Gris claro */
+      --muted-foreground: 215.4 16.3% 46.9%; /* Texto grisáceo */
+      --accent: 210 40% 96.1%; /* Gris claro */
+      --accent-foreground: 222.2 47.4% 11.2%; /* Texto oscuro sobre acento */
+      --destructive: 0 84.2% 60.2%; /* Rojo */
+      --destructive-foreground: 210 40% 98%; /* Texto claro sobre destructivo */
+      --border: 214.3 31.8% 91.4%; /* Borde gris claro */
+      --input: 214.3 31.8% 91.4%; /* Borde gris claro */
+      --ring: 222.2 84% 4.9%; /* Anillo oscuro */
+    }
+
+    /* Clase específica para tarjetas claras sobre fondo oscuro (usado en BlogPage) */
+    .card-light-theme {
+      --background: 0 0% 7%; /* Hereda fondo oscuro general */
+      --foreground: 222.2 84% 4.9%; /* Texto oscuro para contenido dentro de la tarjeta */
+      --card: 0 0% 100%; /* Fondo de tarjeta blanco */
+      --card-foreground: 222.2 84% 4.9%; /* Texto oscuro dentro de la tarjeta */
+      --popover: 0 0% 100%;
+      --popover-foreground: 222.2 84% 4.9%;
+      --primary: 222.2 47.4% 11.2%; /* Primario oscuro para enlaces/botones dentro */
+      --primary-foreground: 210 40% 98%; /* Texto claro sobre primario */
+      --secondary: 210 40% 96.1%;
+      --secondary-foreground: 222.2 47.4% 11.2%;
+      --muted: 210 40% 96.1%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+      --accent: 210 40% 96.1%;
+      --accent-foreground: 222.2 47.4% 11.2%;
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 210 40% 98%;
+      --border: 214.3 31.8% 91.4%; /* Borde claro */
+      --input: 214.3 31.8% 91.4%;
+      --ring: 222.2 84% 4.9%;
     }
   }
 
