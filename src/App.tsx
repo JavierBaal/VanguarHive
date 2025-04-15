@@ -32,7 +32,8 @@ function App() {
           <Route path="/blog" element={<BlogPage />} /> {/* Ruta Listado Blog */}
           <Route path="/blog/:slug" element={<BlogPostDetailPage />} /> {/* Ruta Detalle Post Blog */}
         </Routes>
-        {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
+        {/* Comentar temporalmente para descartar problemas con tempo-routes */}
+        {/* {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)} */}
         <Toaster /> {/* Añadir Toaster aquí */}
         <CookieConsentBanner /> {/* Añadir Banner de Cookies */}
       </>
