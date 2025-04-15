@@ -42,7 +42,7 @@ const KairosCreativeLandingPage = () => {
   const createCheckoutSessionUrl = `${backendUrl}/create-checkout-session`;
   const registerUrl = `${backendUrl}/register`;
   const loginUrl = `${backendUrl}/login`;
-  const chainlitAppUrl = "https://kairos-creative.vanguardhive.com/"; // URL de la app Chainlit
+  const chainlitAppUrl = "https://www.kairos-creative-app.vanguardhive.com/"; // URL de la app Chainlit ACTUALIZADA
 
   // --- Handlers ---
 
