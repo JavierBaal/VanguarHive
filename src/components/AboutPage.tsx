@@ -58,13 +58,13 @@ const AboutPage = () => {
                   <CardContent className="p-6 text-center">
                      {/* Use accent border */}
                     <Avatar className="w-32 h-32 mx-auto mb-4 border-2 border-lit-pink">
-                      <AvatarImage src="/images/Javier-Baal_Fran-Barbero-2025.jpg" alt="Javier Baal" />
+                      <AvatarImage src="/images/Javier-Baal_Fran-Barbero-2025.jpg" alt="Fran Barbero" />
                        {/* Use accent gradient for fallback */}
                       <AvatarFallback className="text-4xl font-bold bg-gradient-to-r from-lit-blue to-lit-pink text-white">
                         JB
                       </AvatarFallback>
                     </Avatar>
-                    <h3 className="text-2xl font-bold mb-1 text-foreground">Javier Baal</h3> {/* Keep name static */}
+                    <h3 className="text-2xl font-bold mb-1 text-foreground">Fran Barbero</h3> {/* Keep name static */}
                      {/* Use accent color */}
                     <p className="text-lit-pink mb-4">{t('about.profile.role')}</p>
                     <div className="flex justify-center space-x-4">
