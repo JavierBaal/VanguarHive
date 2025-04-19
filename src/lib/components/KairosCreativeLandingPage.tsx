@@ -42,7 +42,7 @@ const KairosCreativeLandingPage = () => {
   const createCheckoutSessionUrl = `${backendUrl}/create-checkout-session`;
   const registerUrl = `${backendUrl}/register`;
   const loginUrl = `${backendUrl}/login`;
-  const chainlitAppUrl = "https://www.kairos-creative-app.vanguardhive.com/"; // URL de la app Chainlit ACTUALIZADA
+  const chainlitAppUrl = "https://kairos-creative-app-ftwd.onrender.com"; // URL de la app Chainlit ACTUALIZADA
 
   // --- Handlers ---
 
@@ -121,7 +121,7 @@ const KairosCreativeLandingPage = () => {
            className="text-white border-lit-pink hover:bg-lit-pink hover:text-black"
            onClick={() => window.location.href = chainlitAppUrl}
          >
-           Acceder / Registrarse
+           {t('kairosCreative.v2.header.loginRegister')} {/* Usar traducción */}
          </Button>
        </header>
 
@@ -163,18 +163,19 @@ const KairosCreativeLandingPage = () => {
               {/* Style button with lit-pink */}
               {/* El botón principal ahora abre el modal de registro/login en lugar de ir a checkout */}
                 {/* Botón simple que redirige a la app Chainlit */}
-                <Button
-                  size="lg"
-                  className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-                  onClick={() => window.location.href = chainlitAppUrl}
-                >
-                  {t('kairosCreative.v2.hero.mainCta')}
+                 <Button
+                   size="lg"
+                   className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+                   onClick={() => window.location.href = chainlitAppUrl}
+                 >
+                   {t('kairosCreative.v2.hero.mainCta')} {/* Apunta a la app */}
                 </Button>
                {/* Use lit-pink text color */}
-              <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
-                 <Clock className="h-4 w-4 mr-1" />
-                 {t('kairosCreative.v2.hero.subCta')}
-              </p>
+            {/* Sub CTA ya no es un enlace, es solo texto */}
+            <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
+               <Clock className="h-4 w-4 mr-1" />
+               {t('kairosCreative.v2.hero.subCta')}
+            </p>
             </motion.div>
          </div>
       </section>
@@ -290,22 +291,22 @@ const KairosCreativeLandingPage = () => {
              </Trans>
           </p>
            {/* Visual placeholder */}
-           <p className="text-2xl font-bold text-lit-pink mb-8 animate-pulse">
-             {t('kairosCreative.v2.exclusivity.counter')}
-           </p>
-           {/* Este botón ahora abre el modal */}
-           {/* Botón simple que redirige a la app Chainlit */}
-           <Button
-             size="lg"
-             className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-             onClick={() => window.location.href = chainlitAppUrl}
-           >
-             {t('kairosCreative.v2.exclusivity.mainCta')}
-           </Button>
-           <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
-              <Clock className="h-4 w-4 mr-1" />
-              {t('kairosCreative.v2.exclusivity.subCta')}
-           </p>
+            <p className="text-2xl font-bold text-lit-pink mb-8 animate-pulse">
+              {t('kairosCreative.v2.exclusivity.counter')}
+            </p>
+            {/* Botón simple que redirige a la app Chainlit */}
+            <Button
+              size="lg"
+              className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+              onClick={() => window.location.href = chainlitAppUrl}
+            >
+              {t('kairosCreative.v2.exclusivity.mainCta')} {/* Apunta a la app */}
+            </Button>
+            {/* Sub CTA ya no es un enlace, es solo texto */}
+            <p className="text-lit-pink mt-4 text-sm font-semibold animate-pulse flex items-center justify-center">
+               <Clock className="h-4 w-4 mr-1" />
+               {t('kairosCreative.v2.exclusivity.subCta')}
+            </p>
         </motion.section>
 
         <Separator className="bg-lit-border" />
@@ -319,16 +320,16 @@ const KairosCreativeLandingPage = () => {
            <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
              {t('kairosCreative.v2.postCta.text')}
            </p>
-           <div className="flex justify-center">
-             {/* Botón simple que redirige a la app Chainlit */}
-             <Button
-               size="lg"
-               className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
-               onClick={() => window.location.href = chainlitAppUrl}
-             >
-               {t('kairosCreative.v2.postCta.combinedCta')}
-             </Button>
-           </div>
+            <div className="flex justify-center">
+              {/* Botón simple que redirige a la app Chainlit */}
+              <Button
+                size="lg"
+                className="bg-lit-pink hover:bg-opacity-80 text-white px-8 py-6 text-lg rounded-md transition-all duration-300 shadow-lg hover:shadow-xl border border-lit-pink"
+                onClick={() => window.location.href = chainlitAppUrl}
+              >
+                {t('kairosCreative.v2.postCta.combinedCta')} {/* Apunta a la app */}
+              </Button>
+            </div>
         </motion.section>
 
         {/* Section 8: Bonus - REMOVED */}
